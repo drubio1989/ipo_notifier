@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
 
   def index
-    response = HTTParty.get(Rails.application.credentials.aws.lambda.ipo_calendar)
-    @ipo_calendar_data = JSON.parse(response["body"])
+    @ipo_calendar_data = HTTParty.get(ENV['IPO_CALENDAR_LAMBDA_URL'])
   end
 end
