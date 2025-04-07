@@ -67,3 +67,4 @@ end
 gem "tailwindcss-rails", "~> 4.2"
 gem 'htmlbeautifier'
 gem 'httparty'
+gem "dockerfile-rails", ">= 1.7", :group => :development
