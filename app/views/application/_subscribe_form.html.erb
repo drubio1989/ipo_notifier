@@ -1,4 +1,4 @@
-<%= form_with url: ENV['SUBSCRIBE_EMAIL_LAMBDA_URL'], method: :post, authenticity_token: false, html: { class: "w-max" } do |f| %>
+<%= form_with url: "/subscribe", html: { class: "w-max", data: { turbo_frame: "subscription_response" } } do |f| %>
   <div class="flex items-center flex-col">
     <% if @errors && @errors[:email].present? %>
       <span class="font-mono leading-tight w-full text-red-500 mb-2">
@@ -18,3 +18,4 @@
     </div>
   </div>
 <% end %>
+<turbo-frame id="subscription_response"></turbo-frame>

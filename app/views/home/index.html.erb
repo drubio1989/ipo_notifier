@@ -77,13 +77,13 @@
                 <% @ipo_calendar_data.each do |ipo|%>
                   <tr class="even:bg-teal-100 odd:bg-white dark:even:bg-teal-100" >
                     <td class="py-2 px-4"><%= ipo["Company"] %></td>
-                    <td class="py-2 px-4"><%= ipo["Symbol"] %></td>
+                    <!-- <td class="py-2 px-4"><%= ipo["Symbol"] %></td>
                     <td class="py-2 px-4"><%= ipo["EstimatedVolume"] %></td>
                     <td class="py-2 px-4"><%= Date.parse(ipo["ExpectedToTrade"]).strftime("%m/%d/%Y") %></td>
                     <td class="py-2 px-4"><%= ipo["LeadManagers"] %></td>
                     <td class="py-2 px-4"><%= ipo["NoOfShares"] %> mil</td>
                     <td class="py-2 px-4">$<%= ipo["PriceHigh"] %></td>
-                    <td class="py-2 px-4">$<%= ipo["PriceLow"] %></td>
+                    <td class="py-2 px-4">$<%= ipo["PriceLow"] %></td> -->
                   </tr>
                 <%end%>
               </tbody>
