@@ -7,12 +7,6 @@ class HomeController < ApplicationController
   def subscribe
     email = params[:email]
 
-    response = HTTParty.post(
-      ENV['SUBSCRIBE_EMAIL_LAMBDA_URL'], 
-      body: JSON.generate({ email: email }), 
-      headers: { 'Content-Type' => 'application/json' }
-    )
-
     respond_to do |format|
       if response.code == 201
         SubscriptionMailer.with(email: email).subscribe.deliver_later
@@ -25,13 +19,7 @@ class HomeController < ApplicationController
 
   def unsubscribe
     email = params[:email]
-
-    response = HTTParty.post(
-      ENV['SUBSCRIBE_EMAIL_LAMBDA_URL'], 
-      body: JSON.generate({ email: email }), 
-      headers: { 'Content-Type' => 'application/json' }
-    )
-
+    
     respond_to do |format|
       if response.code == 201
         SubscriptionMailer.with(email: email).subscribe.deliver_later

@@ -3,11 +3,11 @@ class SubscriptionMailer < ApplicationMailer
 
   def subscribe
     email = params[:email]
-    mail(to: email, subject: "Thank you for subscribing to I.P.O. Notifier!")
+    mail(to: email, subject: "IPO Notifier Subscription Confirmation")
   end
 
   def unsubscribe
     email = params[:email]
-    mail(to: email, subject: "You have unsuccessfully unsubscribed to I.P.O. Notifier!")
+    mail(to: email, subject: "IPO Notifier Unsubscribed Confirmation")
   end
 end

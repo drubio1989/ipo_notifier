@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root to: "home#index"
 
+  
   post "subscribe", to: "home#subscribe"
 end
