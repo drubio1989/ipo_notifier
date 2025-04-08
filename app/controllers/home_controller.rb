@@ -15,7 +15,7 @@ class HomeController < ApplicationController
 
     respond_to do |format|
       if response.code == 201
-        SubscriptionMailer.with(email: email).subscribe(email).deliver_later
+        SubscriptionMailer.with(email: email).subscribe.deliver_later
         @message = "Thank you for subscribing!"
       end
 
