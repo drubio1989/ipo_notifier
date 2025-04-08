@@ -1,27 +1,24 @@
 class HomeController < ApplicationController
 
   def index
-    @ipo_calendar_data = HTTParty.get(ENV['IPO_CALENDAR_LAMBDA_URL'])
+    @ipo_calendar_data = JSON.parse HTTParty.get(ENV['IPO_CALENDAR_LAMBDA_URL']).body, symbolize_names: true
   end
 
   def subscribe
     email = params[:email]
 
-    if email.blank?
-      @errors = { email: ["can't be blank"] }
-      render partial: "subscribe_form", status: :unprocessable_entity
-      return
-    end
-    
     response = HTTParty.post(
       ENV['SUBSCRIBE_EMAIL_LAMBDA_URL'], 
-      body: JSON.generate({ email: params[:email] }), 
+      body: JSON.generate({ email: email }), 
       headers: { 'Content-Type' => 'application/json' }
     )
 
-    @message = "Thank you for subscribing!"
-
     respond_to do |format|
+      if response.code == 201
+        SubscriptionMailer.with(email: email).subscribe(email).deliver_later
+        @message = "Thank you for subscribing!"
+      end
+
       format.turbo_stream
     end
   end
