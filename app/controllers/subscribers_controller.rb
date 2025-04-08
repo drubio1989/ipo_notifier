@@ -1,12 +1,10 @@
 class SubscribersController < ApplicationController
-  def new
-  end
-  
+
   def create
     @subscriber = Subscriber.new(subscriber_params)
 
     if @subscriber.save
-      SubscriptionMailer.with(email: @subscriber.email).subscribe.deliver_later
+      # SubscriptionMailer.with(email: @subscriber.email).subscribe.deliver_later
       @message = "Thank you for subscribing!"
     else
       @message = "There was a problem with your subscription."
@@ -22,7 +20,7 @@ class SubscribersController < ApplicationController
 
     respond_to do |format|
       if response.code == 201
-        SubscriptionMailer.with(email: email).subscribe.deliver_later
+        # SubscriptionMailer.with(email: email).subscribe.deliver_later
         @message = "Thank you for subscribing!"
       end
 
