@@ -65,7 +65,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'invisible_captcha'
 gem "tailwindcss-rails", "~> 4.2"
 gem 'htmlbeautifier'
 gem 'httparty'

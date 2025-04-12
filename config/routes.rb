@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   post   "/subscribe",   to: "subscribers#create",   as: :subscribe
-  delete "/unsubscribe", to: "subscribers#destroy",  as: :unsubscribe
+  get '/unsubscribe/:token', to: 'subscribers#unsubscribe', as: :unsubscribe
 
 end

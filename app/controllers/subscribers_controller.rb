@@ -1,10 +1,9 @@
 class SubscribersController < ApplicationController
-  invisible_captcha only: [:create], honeypot: :subscribe
 
   def create
     @subscriber = Subscriber.new(subscriber_params)
     if @subscriber.save
-      # SubscriptionMailer.with(email: @subscriber.email).subscribe.deliver_later
+      SubscriptionMailer.with(subscriber: @subscriber).subscribe.deliver_now
       @message_type = :success
       @message = "Thank you for subscribing!"
     else
@@ -17,17 +16,11 @@ class SubscribersController < ApplicationController
     end
   end
 
-  def delete
-    email = params[:email]
-
-    respond_to do |format|
-      if response.code == 201
-        # SubscriptionMailer.with(email: email).subscribe.deliver_later
-        @message = "Thank you for subscribing!"
-      end
-
-      format.turbo_stream
-    end
+  def unsubscribe
+    subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
+    email = subscriber.email
+    subscriber.destroy
+    SubscriptionMailer.with(email: email).unsubscribe.deliver_now
   end
 
   private

@@ -4,6 +4,7 @@
   opportunity to invest in the next ipo unicorn. 
 </p>
 <p>
-  To unsubscribe please click the following link. #link goes here#
+  To unsubscribe please click the following link: 
+  <%= link_to "Unsubscribe", unsubscribe_url(token: @subscriber.unsubscribe_token), class: "text-blue-600 underline" %>
 </p>
 <p>Thanks for joining and have a great day!</p>
