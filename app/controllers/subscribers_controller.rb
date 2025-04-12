@@ -1,12 +1,14 @@
 class SubscribersController < ApplicationController
+  invisible_captcha only: [:create], honeypot: :subscribe
 
   def create
     @subscriber = Subscriber.new(subscriber_params)
-
     if @subscriber.save
       # SubscriptionMailer.with(email: @subscriber.email).subscribe.deliver_later
+      @message_type = :success
       @message = "Thank you for subscribing!"
     else
+      @message_type = :error
       @message = "There was a problem with your subscription."
     end
   
