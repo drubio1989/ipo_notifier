@@ -3,7 +3,7 @@ class SubscribersController < ApplicationController
   def create
     @subscriber = Subscriber.new(subscriber_params)
     if @subscriber.save
-      SubscriptionMailer.with(subscriber: @subscriber).subscribe.deliver_now
+      SubscriptionMailer.with(subscriber: @subscriber).subscribe.deliver_later
       @message_type = :success
       @message = "Thank you for subscribing!"
     else
@@ -18,9 +18,16 @@ class SubscribersController < ApplicationController
 
   def unsubscribe
     subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
+
+    unless subscriber
+      head :not_found and return
+    end
+
     email = subscriber.email
     subscriber.destroy
-    SubscriptionMailer.with(email: email).unsubscribe.deliver_now
+    SubscriptionMailer.with(email: email).unsubscribe.deliver_later
+
+    head :no_content
   end
 
   private

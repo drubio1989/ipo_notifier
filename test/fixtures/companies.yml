@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company: MyString
+  symbol: MyString
+  lead_managers: MyString
+  no_of_shares: MyString
+  price_low: MyString
+  price_high: MyString
+  estimated_volume: MyString
+  expected_to_trade: 2025-04-11 22:06:59
+
+two:
+  company: MyString
+  symbol: MyString
+  lead_managers: MyString
+  no_of_shares: MyString
+  price_low: MyString
+  price_high: MyString
+  estimated_volume: MyString
+  expected_to_trade: 2025-04-11 22:06:59
