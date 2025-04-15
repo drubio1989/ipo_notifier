@@ -70,3 +70,4 @@ gem 'htmlbeautifier'
 gem 'httparty'
 gem "dockerfile-rails", ">= 1.7", :group => :development
 gem "nokogiri"
+gem 'whenever', require: false
