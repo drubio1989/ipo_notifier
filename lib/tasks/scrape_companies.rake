@@ -41,7 +41,7 @@ namespace :scrape do
         if index == 7 # ExpectedToTrade date
           date_text = td.text.strip.split(' ').first
           begin
-            iso_date = Date.parse(date_text).to_datetime
+            iso_date =  Date.strptime(date_text, '%m/%d/%Y')
             company_data[field] = iso_date
           rescue => e
             puts "Invalid date: #{date_text}"

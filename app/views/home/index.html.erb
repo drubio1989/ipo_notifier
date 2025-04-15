@@ -79,7 +79,7 @@
                     <td class="py-2 px-4"><%= ipo.company %></td>
                     <td class="py-2 px-4"><%= ipo.symbol %></td>
                     <td class="py-2 px-4"><%= ipo.estimated_volume %></td>
-                    <td class="py-2 px-4"><%= ipo.expected_to_trade %></td>
+                    <td class="py-2 px-4"><%= ipo.expected_to_trade.strftime("%A, %B %-d") %></td>
                     <td class="py-2 px-4"><%= ipo.lead_managers %></td>
                     <td class="py-2 px-4"><%= ipo.no_of_shares %> mil</td>
                     <td class="py-2 px-4">$<%= ipo.price_high %></td>
