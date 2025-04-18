@@ -74,3 +74,5 @@ gem "nokogiri"
 gem 'whenever', require: false
 
 gem "trestle", "~> 0.10.1"
+
+gem "trestle-auth", "~> 0.5.0"

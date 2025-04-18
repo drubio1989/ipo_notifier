@@ -76,6 +76,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
@@ -365,6 +366,9 @@ GEM
       kaminari (>= 1.1.0)
       railties (>= 6.0.0)
       turbo-rails (>= 2.0.6)
+    trestle-auth (0.5.0)
+      bcrypt (~> 3.1.7)
+      trestle (~> 0.10.0)
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
@@ -429,6 +433,7 @@ DEPENDENCIES
   tailwindcss-rails (~> 4.2)
   thruster
   trestle (~> 0.10.1)
+  trestle-auth (~> 0.5.0)
   turbo-rails
   tzinfo-data
   web-console
