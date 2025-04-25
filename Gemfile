@@ -71,11 +71,9 @@ gem 'htmlbeautifier'
 gem 'httparty'
 gem "dockerfile-rails", ">= 1.7", :group => :development
 gem "nokogiri"
-gem 'whenever', require: false
 
 gem "trestle", "~> 0.10.1"
 
 gem "trestle-auth", "~> 0.5.0"
 
 gem 'aws-sdk-ses', require: false
-
