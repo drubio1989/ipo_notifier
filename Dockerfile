@@ -11,6 +11,16 @@
 ARG RUBY_VERSION=3.4.2
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
+#install curl in image
+RUN apt-get update -qq && \
+    apt-get install -y curl && \
+    curl -fsSLO "https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64" && \
+    echo "71b0d58cc53f6bd72cf2f293e09e294b79c666d8  supercronic-linux-amd64" | sha1sum -c - && \
+    chmod +x "supercronic-linux-amd64" && \
+    mv "supercronic-linux-amd64" "/usr/local/bin/supercronic-linux-amd64" && \
+    ln -s "/usr/local/bin/supercronic-linux-amd64" /usr/local/bin/supercronic
+
+
 #supercronic
 # Latest releases available at https://github.com/aptible/supercronic/releases
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64 \
