@@ -33,6 +33,7 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
  && ln -sf "/usr/local/bin/supercronic-linux-amd64" /usr/local/bin/supercronic
 
+COPY crontab crontab
 
 # Rails app lives here
 WORKDIR /rails
