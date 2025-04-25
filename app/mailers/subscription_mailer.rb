@@ -1,5 +1,4 @@
 class SubscriptionMailer < ApplicationMailer
-  default from: "iponotifier@somewhere.com"
 
   def subscribe
     @subscriber = params[:subscriber]

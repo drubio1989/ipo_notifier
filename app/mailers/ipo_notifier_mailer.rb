@@ -1,5 +1,4 @@
 class IpoNotifierMailer < ApplicationMailer
-  default from: "iponotifier@somewhere.com"
 
   def notify_subscriber
     @subscriber = params[:subscriber]
