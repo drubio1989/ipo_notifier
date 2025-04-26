@@ -1,1 +1,1 @@
-0 6,18 * * * cd /path/to/your/app && RAILS_ENV=production bundle exec rake "scrape:companies"
+0 6,18 * * * cd /rails && RAILS_ENV=production bundle exec rake "scrape:companies"
