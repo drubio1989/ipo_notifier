@@ -6,6 +6,10 @@ namespace :scrape do
   desc "Scrape IPO Scoop and save company data"
   task companies: :environment do
     puts 'Starting......'
+    puts "Removing old data......"
+    Company.destroy_all
+
+    puts "Begin Scraping........"
     url = 'https://www.iposcoop.com/ipo-calendar/'
     response = HTTParty.get(url)
 
