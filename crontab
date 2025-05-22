@@ -1,1 +1,2 @@
 0 6,18 * * * cd /rails && RAILS_ENV=production bundle exec rake "scrape:companies"
+0 7 * * * cd /rails && RAILS_ENV=production bundle exec rake "subscribers:notify"
