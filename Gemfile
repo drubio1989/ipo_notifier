@@ -77,3 +77,7 @@ gem "trestle", "~> 0.10.1"
 gem "trestle-auth", "~> 0.5.0"
 
 gem 'aws-sdk-ses', require: false
+
+gem "uri", "~> 1.0"
+
+gem "net-http", "~> 0.6.0"
