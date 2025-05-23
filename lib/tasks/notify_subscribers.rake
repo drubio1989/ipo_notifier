@@ -5,11 +5,10 @@ namespace :subscribers do
       start_date = Date.tomorrow.beginning_of_day
 
       companies = Company.where(expected_to_trade: start_date)
-      # debugger
+      
       return if companies.empty?
 
       Subscriber.where(email_status: 'active').find_each do |subscriber|
-        # debugger
         IpoNotifierMailer.with(subscriber: subscriber, ipos: companies.to_a).notify_subscriber.deliver_now
       end
     rescue => e
