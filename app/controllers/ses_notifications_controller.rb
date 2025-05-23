@@ -47,13 +47,25 @@ class SesNotificationsController < ApplicationController
 
   def handle_bounce(bounce)
     bounced_emails = bounce['bouncedRecipients'].map { |r| r['emailAddress'] }
-    Rails.logger.info "Bounced emails: #{bounced_emails.inspect}"
-    # TODO: Add your bounce handling logic here (e.g., mark emails in DB)
+    bounce_type = bounce['bounceType']
+
+    bounced_emails.each do |email|
+      subscriber = Subscriber.find_by(email: email)
+      next unless subscriber
+
+      if bounce_type == 'Permanent'
+        subscriber.update(email_status: 'bounced', bounce_count: 1)
+      else
+        subscriber.increment!(:bounce_count)
+        if subscriber.bounce_count >= 3
+          subscriber.update(email_status: 'bounced')
+        end
+      end
+    end
   end
 
   def handle_complaint(complaint)
     complained_emails = complaint['complainedRecipients'].map { |r| r['emailAddress'] }
-    Rails.logger.info "Complaint emails: #{complained_emails.inspect}"
-    # TODO: Add your complaint handling logic here (e.g., mark emails in DB)
+    Subscriber.where(email: complained_emails).update_all(email_status: 'complained')
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_17_235942) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_23_170822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_235942) do
     t.datetime "updated_at", null: false
     t.string "email", null: false
     t.string "unsubscribe_token"
+    t.string "email_status", default: "active"
+    t.integer "bounce_count", default: 0
     t.index ["email"], name: "index_subscribers_on_email", unique: true
   end
 

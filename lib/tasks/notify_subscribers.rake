@@ -8,7 +8,7 @@ namespace :subscribers do
       # debugger
       return if companies.empty?
 
-      Subscriber.find_each do |subscriber|
+      Subscriber.where(email_status: 'active').find_each do |subscriber|
         # debugger
         IpoNotifierMailer.with(subscriber: subscriber, ipos: companies.to_a).notify_subscriber.deliver_now
       end

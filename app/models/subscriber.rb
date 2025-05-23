@@ -3,7 +3,8 @@ class Subscriber < ApplicationRecord
 
   validates :email, presence: true
   validates :email, uniqueness: true
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email_status, inclusion: { in: %w(active bounced complained) }
 
   private
 
