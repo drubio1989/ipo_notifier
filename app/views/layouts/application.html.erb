@@ -17,15 +17,16 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-  <div 
+  <body>
+    <div 
   class='fixed w-full bg-teal-500 z-10 shadow-sm'>
-    <div
+      <div
       class='
           py-4 
           border-b-[1px]
         '
       >
-      <div 
+        <div 
       class='
         max-w-[2520px] 
         mx-auto 
@@ -34,7 +35,7 @@
         sm:px-2
         px-4'
       >
-        <div   
+          <div   
        class='
             flex
             flex-row
@@ -43,55 +44,54 @@
             md:gap-0a
           '
         >
-          <svg 
+            <svg 
           class="h-8 w-8 text-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-          <svg 
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <svg 
           class="h-8 w-8 text-white"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round">  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />  <polyline points="22,6 12,13 2,6" /></svg>
-          <svg 
+            <svg 
           class="h-8 w-8 text-white"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round">  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-          <span 
+            <span 
         class="font-semibold text-xl tracking-tight text-white">Initial Public Offering Notifier</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <header>
-    <div class="max-w-5xl mx-auto py-16 px-14 sm:px-6 lg:px-8">
-      <h1 class="mt-10 font-m font-bold text-4xl md:text-5xl lg:text-8xl text-center leading-snug text-teal-600">
-        Never miss an I.P.O. unicorn again!
-      </h1>
-      <div class="max-w-xl mx-auto">
-        <p class="font-mono mt-10 text-gray-500 text-center text-xl lg:text-3xl">
-          Seize the next big investment opportunity and embark on your path to financial success today!
-        </p>
-      </div>
-      <div class="mt-10 flex justify-center items-center w-full mx-auto">
-        <div>
-          <%= render "application/subscribe_form" %>
+    <header>
+      <div class="max-w-5xl mx-auto py-16 px-14 sm:px-6 lg:px-8">
+        <h1 class="mt-10 font-m font-bold text-3xl md:text-4xl lg:text-7xl text-center leading-snug text-teal-600">
+          Never miss an I.P.O. unicorn again!
+        </h1>
+        <div class="max-w-xl mx-auto">
+          <p class="font-mono mt-10 text-gray-500 text-center">
+            Seize the next big investment opportunity and embark on your path to financial success today!
+          </p>
         </div>
-      </div>
-    </header>
-    <body>
-      <main class="container mx-auto px-5 flex flex-col items-center justify-center min-h-screen">
+      </header>
+      <main class="container mx-auto flex flex-col items-center justify-center min-h-screen">\   
+        <div class="flex justify-center items-center w-full mx-auto">
+          <div>
+            <%= render "application/subscribe_form" %>
+          </div>
+        </div>
         <%= yield %>
       </main>
-    </body>
-    <footer>
-      <div class="bg-teal-500">
-        <div class="h-px w-full bg-gradient-to-r from-transparent via-[D2D8E183] to-transparent dark:via-[959CB183]"></div>
-        <div class="py-5">
-          <p class="text-center text-lg text-body-color text-white font-bold font-mono">
-            Disclaimer:
-          </p>
-          <p class="px-12 pb-5 text-center text-sm text-body-color text-white font-bold font-mono">
-            The information provided on this website is for general informational purposes only and does not constitute financial advice. Initial Public Offering Notifier is not a registered financial advisor. You should not rely on the information on this website as financial or investment advice. Always consult with a qualified financial advisor before making any investment decisions.
-            Investing in financial markets carries inherent risks. Past performance is not indicative of future results. Initial Public Offering Notifier does not guarantee the accuracy, completeness, or timeliness of the information on this website. You acknowledge that any reliance on such information is at your own risk.
-            While we strive to provide accurate and up-to-date information, Initial Public Offering Notifier makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information provided on this website.
-            Initial Public Offering Notifier reserves the right to modify or update this disclaimer at any time without notice. It is your responsibility to check this disclaimer periodically for changes.
-          </p>
+      <footer>
+        <div class="bg-teal-500">
+          <div class="h-px w-full bg-gradient-to-r from-transparent via-[D2D8E183] to-transparent dark:via-[959CB183]"></div>
+          <div class="py-5">
+            <p class="text-center text-lg text-body-color text-white font-bold font-mono">
+              Disclaimer:
+            </p>
+            <p class="px-12 pb-5 text-center text-sm text-body-color text-white font-bold font-mono">
+              The information provided on this website is for general informational purposes only and does not constitute financial advice. Initial Public Offering Notifier is not a registered financial advisor. You should not rely on the information on this website as financial or investment advice. Always consult with a qualified financial advisor before making any investment decisions.
+              Investing in financial markets carries inherent risks. Past performance is not indicative of future results. Initial Public Offering Notifier does not guarantee the accuracy, completeness, or timeliness of the information on this website. You acknowledge that any reliance on such information is at your own risk.
+              While we strive to provide accurate and up-to-date information, Initial Public Offering Notifier makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information provided on this website.
+              Initial Public Offering Notifier reserves the right to modify or update this disclaimer at any time without notice. It is your responsibility to check this disclaimer periodically for changes.
+            </p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </body>
   </html>
