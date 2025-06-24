@@ -15,7 +15,7 @@ Rails.application.routes.draw do
  # config/routes.rb
   post '/ses_notifications', to: 'ses_notifications#receive', as: :ses_notifications
 
-  post   "/subscribe",   to: "subscribers#create",   as: :subscribe
+  post "/subscribe", to: "subscribers#create",   as: :subscribe
   get '/unsubscribe/:token', to: 'subscribers#unsubscribe', as: :unsubscribe
-
+  get "/confirmation/:token", to: "subscribers#confirmation", as: :confirmation
 end
