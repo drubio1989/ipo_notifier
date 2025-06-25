@@ -1,33 +1,41 @@
-<p>Expected to trade tomorrow are the following:</p>
-<table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+<h2 style="color: #14b8a6;">Expected to trade tomorrow</h2>
+
+<p style="color: #6b7280;">
+  Below is the list of IPOs expected to trade tomorrow:
+</p>
+
+<table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; color: #374151; font-size: 14px;">
   <thead>
-    <tr>
-      <th style="border: 1px solid #ccc; padding: 8px;">Company</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Symbol</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Estimated Volume</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Expected To Trade</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Lead Managers</th>
-      <th style="border: 1px solid #ccc; padding: 8px;"># of Shares</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Price High</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Price Low</th>
+    <tr style="background-color: #f9fafb;">
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Company</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Symbol</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Estimated Volume</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Expected To Trade</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Lead Managers</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;"># of Shares</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Price High</th>
+      <th style="border: 1px solid #e5e7eb; padding: 8px;">Price Low</th>
     </tr>
   </thead>
   <tbody>
     <% @ipos.each do |ipo| %>
       <tr>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.company %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.symbol %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.estimated_volume %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.expected_to_trade.strftime("%A, %B %d, %Y") %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.lead_managers %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.no_of_shares %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.price_high %></td>
-        <td style="border: 1px solid #ccc; padding: 8px;"><%= ipo.price_low %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.company %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.symbol %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.estimated_volume %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.expected_to_trade.strftime("%A, %B %d, %Y") %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.lead_managers %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.no_of_shares %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.price_high %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.price_low %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<p>
-  To unsubscribe please click the following link: 
-  <%= link_to "Unsubscribe", unsubscribe_url(token: @subscriber.unsubscribe_token), class: "text-blue-600 underline" %>
+
+<p style="margin-top: 2rem; color: #6b7280;">
+  Don’t want to receive these updates anymore?
+  <a href="<%= unsubscribe_url(token: @subscriber.unsubscribe_token) %>" style="color: #2563eb; text-decoration: underline;">
+    Unsubscribe
+  </a>
 </p>

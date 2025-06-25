@@ -1,17 +1,21 @@
-<h1>Thank you for signing up for IPO Notifier!</h1>
+<h2 style="color: #14b8a6;">Thank you for signing up for IPO Notifier!</h2>
+
 <p>
   To start receiving timely IPO updates, please confirm your email address by clicking the button below:
 </p>
+
 <p>
-  <%= link_to "Confirm Subscription", confirmation_url(token: @subscriber.confirmation_token), class: "text-blue-600 underline" %>
+  <a href="<%= confirmation_url(token: @subscriber.confirmation_token) %>"
+     style="display: inline-block; background-color: #14b8a6; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px;">
+    Confirm Subscription
+  </a>
 </p>
-<p>
-  If you didn’t sign up for this, you can safely ignore this email.
-</p>
+
+<p>If you didn’t sign up for this, you can safely ignore this email.</p>
+
 <p>Thank you and have a great day!</p>
-<p>
-  Cheers
 
-  Ipo Notifier Team
+<p style="margin-top: 2rem;">
+  Cheers,<br>
+  <strong>IPO Notifier Team</strong>
 </p>
-

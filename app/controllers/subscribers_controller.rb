@@ -29,7 +29,7 @@ class SubscribersController < ApplicationController
         confirmation_token: nil,
         confirmation_sent_at: nil
       )
-      SubscriptionMailer.with(subscriber: @subscriber).subscribe.deliver_later
+      SubscriptionMailer.with(subscriber: @subscriber).welcome.deliver_later
     end
   end
 

@@ -5,7 +5,7 @@ class SubscriptionMailer < ApplicationMailer
     mail(to: @subscriber.email, subject: "Please confirm your subscription to IPO Notifier")
   end
 
-  def subscribe
+  def welcome
     @subscriber = params[:subscriber]
     mail(to: @subscriber.email, subject: "IPO Notifier Subscription Confirmation")
   end
