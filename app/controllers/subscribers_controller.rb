@@ -6,7 +6,7 @@ class SubscribersController < ApplicationController
       SubscriptionMailer.with(subscriber: @subscriber).confirm.deliver_later
       
       @message_type = :success
-      @message = "Thanks for signing up! Please check your email and click the confirmation link to activate your subscription."
+      @message = "Please check your email to confirm your subscription."
     else
       @message_type = :error
       @message = "There was a problem with your subscription."
@@ -29,8 +29,11 @@ class SubscribersController < ApplicationController
         confirmation_token: nil,
         confirmation_sent_at: nil
       )
-      SubscriptionMailer.with(subscriber: @subscriber).welcome.deliver_later
+      SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_later
+      render plain: "Subscription confirmed! Check your email for a welcome message.", status: :ok
     end
+
+    head :no_content
   end
 
   def unsubscribe
