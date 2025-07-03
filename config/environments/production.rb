@@ -63,14 +63,14 @@ Rails.application.configure do
   
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "email-smtp.us-east-1.amazonaws.com",
-    port: 587,
-    user_name: ENV['SES_SMTP_USERNAME'],
-    password: ENV['SES_SMTP_PASSWORD'],  
-    authentication: 'login',
-    enable_starttls_auto: true
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address: "email-smtp.us-east-1.amazonaws.com",
+  #   port: 587,
+  #   user_name: ENV['SES_SMTP_USERNAME'],
+  #   password: ENV['SES_SMTP_PASSWORD'],  
+  #   authentication: 'login',
+  #   enable_starttls_auto: true
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
