@@ -67,8 +67,8 @@ Rails.application.configure do
     address: "smtp.mailgun.org",
     port: 587,
     domain: 'iponotifier.com',
-    user_name: Rails.application.credentials.mailgun[:smtp_user],
-    password: Rails.application.credentials.mailgun[:smtp_password],
+    user_name: Rails.application.credentials.dig(:mailgun, :smtp_user),
+    password: Rails.application.credentials.dig(:mailgun, :smtp_password),
     authentication: 'login',
     enable_starttls_auto: true
   }
