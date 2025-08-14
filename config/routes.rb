@@ -13,6 +13,5 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   post "/subscribe", to: "subscribers#create",   as: :subscribe
-  get '/unsubscribe/:token', to: 'subscribers#unsubscribe', as: :unsubscribe
   get "/confirmation/:token", to: "subscribers#confirmation", as: :confirmation
 end

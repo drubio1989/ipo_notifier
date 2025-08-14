@@ -29,23 +29,10 @@ class SubscribersController < ApplicationController
         confirmation_token: nil,
         confirmation_sent_at: nil
       )
+      subscriber.subscribe('ipo-notifier')
       SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_later
       render plain: "Subscription confirmed! Check your email for a welcome message.", status: :ok
     end
-
-    head :no_content
-  end
-
-  def unsubscribe
-    subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
-
-    unless subscriber
-      head :not_found and return
-    end
-
-    email = subscriber.email
-    subscriber.destroy
-    SubscriptionMailer.with(email: email).unsubscribe.deliver_later
 
     head :no_content
   end

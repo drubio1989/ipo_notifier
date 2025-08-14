@@ -113,6 +113,13 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    factory_bot (6.5.4)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.5.0)
+      factory_bot (~> 6.5)
+      railties (>= 6.1.0)
+    faker (3.5.2)
+      i18n (>= 1.8.11, < 2)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -178,6 +185,8 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailkick (2.0.0)
+      activesupport (>= 7.1)
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
@@ -412,12 +421,15 @@ DEPENDENCIES
   debug
   dockerfile-rails (>= 1.7)
   dotenv
+  factory_bot_rails
+  faker
   htmlbeautifier
   httparty
   importmap-rails
   jbuilder
   kamal
   letter_opener
+  mailkick (~> 2.0)
   net-http (~> 0.6.0)
   nokogiri
   pg (~> 1.1)

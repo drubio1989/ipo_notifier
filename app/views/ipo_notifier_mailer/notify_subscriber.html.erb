@@ -1,9 +1,7 @@
 <h2 style="color: #14b8a6;">Expected to trade tomorrow</h2>
-
 <p style="color: #6b7280;">
   Below is the list of IPOs expected to trade tomorrow:
 </p>
-
 <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; color: #374151; font-size: 14px;">
   <thead>
     <tr style="background-color: #f9fafb;">
@@ -32,10 +30,7 @@
     <% end %>
   </tbody>
 </table>
-
 <p style="margin-top: 2rem; color: #6b7280;">
   Don’t want to receive these updates anymore?
-  <a href="<%= unsubscribe_url(token: @subscriber.unsubscribe_token) %>" style="color: #2563eb; text-decoration: underline;">
-    Unsubscribe
-  </a>
+  <%= link_to "Unsubscribe", mailkick_unsubscribe_url(@subscriber, "ipo-notifier"), style: "color: #2563eb; text-decoration: underline;" %>
 </p>

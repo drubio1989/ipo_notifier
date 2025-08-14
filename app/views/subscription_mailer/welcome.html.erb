@@ -1,22 +1,14 @@
 <h2 style="color: #14b8a6;">Thank you for subscribing to iponotifier.com!</h2>
-
 <p>
   You’ve successfully signed up to IPO Notifier. Never miss your chance to invest in the next IPO unicorn.
 </p>
-
 <p>
   If you'd like to unsubscribe at any time, click the link below:
 </p>
-
 <p>
-  <a href="<%= unsubscribe_url(token: @subscriber.unsubscribe_token) %>"
-     style="color: #2563eb; text-decoration: underline;">
-    Unsubscribe
-  </a>
+  <%= link_to "Unsubscribe", mailkick_unsubscribe_url(@subscriber, "ipo-notifier"), style: "color: #2563eb; text-decoration: underline;" %>
 </p>
-
 <p>We’re glad to have you on board!</p>
-
 <p style="margin-top: 2rem;">
   Cheers,<br>
   <strong>IPO Notifier Team</strong>

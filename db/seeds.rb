@@ -7,3 +7,14 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Subscriber.destroy_all
+Company.destroy_all
+
+10.times do 
+  FactoryBot.create(:subscriber)
+end
+
+20.times do 
+  FactoryBot.create(:company)
+end
