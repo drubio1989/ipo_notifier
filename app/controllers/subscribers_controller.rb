@@ -30,7 +30,7 @@ class SubscribersController < ApplicationController
         confirmation_sent_at: nil
       )
       subscriber.subscribe('ipo-notifier')
-      SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_later
+      SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_now #Change to deliver_later if there's more user traction
       render plain: "Subscription confirmed! Check your email for a welcome message.", status: :ok
     end
   end
