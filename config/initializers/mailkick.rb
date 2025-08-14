@@ -14,6 +14,6 @@ Mailkick.process_opt_outs_method = lambda do |opt_outs|
 
     subscriber.destroy
 
-    SubscriptionMailer.with(email: email).unsubscribe.deliver_later
+    SubscriptionMailer.with(email: email).unsubscribe.deliver_now #Change to deliver_later if there's more user traction
   end
 end

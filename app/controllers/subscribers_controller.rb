@@ -3,7 +3,7 @@ class SubscribersController < ApplicationController
   def create
     @subscriber = Subscriber.new(subscriber_params)
     if @subscriber.save
-      SubscriptionMailer.with(subscriber: @subscriber).confirm.deliver_later
+      SubscriptionMailer.with(subscriber: @subscriber).confirm.deliver_now #Change to deliver_later if there's more user traction
       
       @message_type = :success
       @message = "Please check your email to confirm your subscription."
