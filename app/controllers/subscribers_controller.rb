@@ -33,8 +33,6 @@ class SubscribersController < ApplicationController
       SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_later
       render plain: "Subscription confirmed! Check your email for a welcome message.", status: :ok
     end
-
-    head :no_content
   end
 
   private
