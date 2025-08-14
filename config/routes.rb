@@ -13,5 +13,8 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   post "/subscribe", to: "subscribers#create",   as: :subscribe
+  get "/confirmation/success", to: "subscribers#confirmation_success", as: :confirmation_success
+  get "/confirmation/error", to: "subscribers#confirmation_error", as: :confirmation_error
   get "/confirmation/:token", to: "subscribers#confirmation", as: :confirmation
+  
 end

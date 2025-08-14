@@ -13,26 +13,41 @@ class SubscribersController < ApplicationController
     end
   
   end
-
+  
+  
   def confirmation
     subscriber = Subscriber.find_by(confirmation_token: params[:token])
-
+    
+    # return redirect_to confirmation_success_path if subscriber.nil? || subscriber.confirmed_at.present?
+    
     if subscriber.nil?
-      render plain: "Invalid or missing confirmation token", status: :not_found
+
+      redirect_to confirmation_error_path, alert: "Invalid or missing confirmation token."
     elsif subscriber.confirmed_at.present?
-      render plain: "Email has already been confirmed", status: :unprocessable_entity
+
+      redirect_to confirmation_error_path, alert: "Email has already been confirmed."
     elsif subscriber.confirmation_sent_at < 48.hours.ago
-      render plain: "Confirmation token has expired", status: :unprocessable_entity
+      # Token expired
+      redirect_to confirmation_error_path, alert: "Confirmation token has expired."
     else
+      # Success path
       subscriber.update!(
         confirmed_at: Time.current,
         confirmation_token: nil,
         confirmation_sent_at: nil
       )
-      subscriber.subscribe('ipo-notifier')
-      SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_now #Change to deliver_later if there's more user traction
-      render plain: "Subscription confirmed! Check your email for a welcome message.", status: :ok
+      subscriber.subscribe("ipo-notifier")
+      SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_now
+      redirect_to confirmation_success_path
     end
+  end
+  
+  def confirmation_success
+    render layout: false
+  end
+  
+  def confirmation_error
+    render layout: false
   end
 
   private
@@ -41,3 +56,25 @@ class SubscribersController < ApplicationController
     params.require(:subscriber).permit(:email)
   end
 end
+
+
+# def confirmation
+  #   subscriber = Subscriber.find_by(confirmation_token: params[:token])
+
+  #   # if subscriber.nil?
+  #   #   redirect_to confirmation_error_path, alert: "Invalid or missing confirmation token."
+  #   # elsif subscriber.confirmed_at.present?
+  #   #   redirect_to confirmation_error_path, alert: "Email has already been confirmed."
+  #   # elsif subscriber.confirmation_sent_at < 48.hours.ago
+  #   #   redirect_to confirmation_error_path, alert: "Confirmation token has expired."
+  #   # else
+
+  #   subscriber.update!(
+  #     confirmed_at: Time.current,
+  #     confirmation_token: nil,
+  #     confirmation_sent_at: nil
+  #   )
+  #   subscriber.subscribe("ipo-notifier")
+  #   SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_now
+  #   # end
+  # end
