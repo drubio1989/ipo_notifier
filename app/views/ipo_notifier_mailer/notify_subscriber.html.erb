@@ -32,5 +32,5 @@
 </table>
 <p style="margin-top: 2rem; color: #6b7280;">
   Don’t want to receive these updates anymore?
-  <%= link_to "Unsubscribe", mailkick_unsubscribe_url(@subscriber, "ipo-notifier"), style: "color: #2563eb; text-decoration: underline;" %>
+  <%= link_to "Unsubscribe", unsubscribe_url(token: @subscriber.unsubscribe_token) %>
 </p>

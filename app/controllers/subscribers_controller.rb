@@ -42,6 +42,20 @@ class SubscribersController < ApplicationController
     end
   end
   
+  def unsubscribe
+    subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
+
+    email = subscriber.email
+
+    subscriber.unsubscribe("ipo_notifier")
+
+    subscriber.destroy
+
+    SubscriptionMailer.with(email: email).unsubscribe.deliver_now #Change to deliver_later if there's more user traction
+  
+    render plain: "Ok"
+  end
+  
   def confirmation_success
     render layout: false
   end
@@ -57,24 +71,3 @@ class SubscribersController < ApplicationController
   end
 end
 
-
-# def confirmation
-  #   subscriber = Subscriber.find_by(confirmation_token: params[:token])
-
-  #   # if subscriber.nil?
-  #   #   redirect_to confirmation_error_path, alert: "Invalid or missing confirmation token."
-  #   # elsif subscriber.confirmed_at.present?
-  #   #   redirect_to confirmation_error_path, alert: "Email has already been confirmed."
-  #   # elsif subscriber.confirmation_sent_at < 48.hours.ago
-  #   #   redirect_to confirmation_error_path, alert: "Confirmation token has expired."
-  #   # else
-
-  #   subscriber.update!(
-  #     confirmed_at: Time.current,
-  #     confirmation_token: nil,
-  #     confirmation_sent_at: nil
-  #   )
-  #   subscriber.subscribe("ipo-notifier")
-  #   SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_now
-  #   # end
-  # end

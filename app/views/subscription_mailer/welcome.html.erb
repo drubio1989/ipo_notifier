@@ -6,7 +6,7 @@
   If you'd like to unsubscribe at any time, click the link below:
 </p>
 <p>
-  <%= link_to "Unsubscribe", mailkick_unsubscribe_url(@subscriber, "ipo-notifier"), style: "color: #2563eb; text-decoration: underline;" %>
+  <%= link_to "Unsubscribe", unsubscribe_url(token: @subscriber.unsubscribe_token) %>
 </p>
 <p>We’re glad to have you on board!</p>
 <p style="margin-top: 2rem;">
