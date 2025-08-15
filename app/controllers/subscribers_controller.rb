@@ -2,6 +2,13 @@ class SubscribersController < ApplicationController
 
   def create
     @subscriber = Subscriber.new(subscriber_params)
+    
+    if params[:hidden_message].present?
+      Rails.logger.info "Blocked bot via honeypot: #{request.remote_ip}"
+      head :ok
+      return
+    end
+
     if @subscriber.save
       SubscriptionMailer.with(subscriber: @subscriber).confirm.deliver_now #Change to deliver_later if there's more user traction
       
@@ -67,7 +74,7 @@ class SubscribersController < ApplicationController
   private
 
   def subscriber_params
-    params.require(:subscriber).permit(:email)
+    params.require(:subscriber).permit(:email, :hidden_message)
   end
 end
 
