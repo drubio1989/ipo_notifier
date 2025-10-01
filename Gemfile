@@ -84,3 +84,7 @@ gem "uri", "~> 1.0"
 gem "net-http", "~> 0.6.0"
 
 gem "mailkick", "~> 2.0"
+
+gem "activeagent", "~> 0.6.2"
+
+gem "ruby-openai", "~> 8.3"
