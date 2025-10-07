@@ -73,4 +73,36 @@ namespace :scrape do
 
     puts "Scraping complete."
   end
+  
+  desc "Scrape a company's cik number"
+  task company_cik: :environment do
+    puts 'Starting......'
+    
+    companies = Company.all
+    
+    url = "https://www.sec.gov/files/company_tickers.json"
+    response = HTTParty.get(url, headers: {
+      "User-Agent" => "Ipo Notifier (info@iponotifier.com)"
+    })
+
+    unless response.success?
+      puts "Failed to fetch data"
+      next
+    end
+    
+    sec_data = response.values.map do |company|
+      company.transform_keys do |key|
+        key == "ticker" ? company["ticker"] : key
+      end
+    end
+     
+    companies.each do |company|
+      match = sec_data.find { |listing| listing.key? company.symbol }
+      next unless match
+      cik = match["cik_str"].to_s.rjust(10, "0")
+      company.update(cik: cik)
+    end
+    
+    puts "CIK update complete."
+  end
 end
