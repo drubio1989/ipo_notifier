@@ -74,8 +74,8 @@ namespace :scrape do
     puts "Scraping complete."
   end
   
-  desc "Scrape a company's cik number"
-  task company_cik: :environment do
+  desc "Scrape a company's cik number and s2 filing url"
+  task company_cik_and_s1: :environment do
     puts 'Starting......'
     
     companies = Company.all
@@ -98,8 +98,18 @@ namespace :scrape do
      
     companies.each do |company|
       match = sec_data.find { |listing| listing.key? company.symbol }
-      next unless match
-      company.update(cik: match["cik_str"].to_s)
+      puts "the Match object"
+      puts match.inspect
+      if match.nil?
+        company.update(cik: "#{0 * 10}")
+      else
+        company.update(cik: match["cik_str"].to_s)
+      end
+    end
+    
+    companies.each do |company|
+      next if company.cik == "#{0 * 10}"
+      company.update(s1_filing_url: company.s1_filing)
     end
     
     puts "CIK update complete."
