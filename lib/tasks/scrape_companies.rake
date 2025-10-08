@@ -99,7 +99,7 @@ namespace :scrape do
     companies.each do |company|
       match = sec_data.find { |listing| listing.key? company.symbol }
       puts "the Match object"
-      puts match.inspect
+      
       if match.nil?
         company.update(cik: "#{0 * 10}")
       else

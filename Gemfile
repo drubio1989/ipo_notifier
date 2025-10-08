@@ -88,3 +88,5 @@ gem "mailkick", "~> 2.0"
 gem "activeagent", "~> 0.6.2"
 
 gem "ruby-openai", "~> 8.3"
+
+gem "cuprite", "~> 0.17"
