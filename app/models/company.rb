@@ -1,2 +1,21 @@
+require 'httparty'
+require 'debug'
+
 class Company < ApplicationRecord
+  
+  
+  def s1_filing
+    url = "https://data.sec.gov/submissions/CIK#{cik.rjust(10, "0")}.json"
+    response = HTTParty.get(url, headers: {
+      "User-Agent" => "Ipo Notifier (info@iponotifier.com)"
+    })
+    
+    pp response["filings"]["recent"]["form"]
+    s1_index = response["filings"]["recent"]["form"].find_index { |form_type| ["S-1", "S-1/A", "F-1", "F-1/A"].include?(form_type) }
+    puts "s1_index:#{s1_index}"
+    s1_accession_number = response["filings"]["recent"]["accessionNumber"][s1_index]
+    s1_form_name = response["filings"]["recent"]["primaryDocument"][s1_index]
+    
+    "https://www.sec.gov/Archives/edgar/data/#{cik}/#{s1_accession_number.gsub("-", "")}/#{s1_form_name}"
+  end
 end

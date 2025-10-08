@@ -99,8 +99,7 @@ namespace :scrape do
     companies.each do |company|
       match = sec_data.find { |listing| listing.key? company.symbol }
       next unless match
-      cik = match["cik_str"].to_s.rjust(10, "0")
-      company.update(cik: cik)
+      company.update(cik: match["cik_str"].to_s)
     end
     
     puts "CIK update complete."
