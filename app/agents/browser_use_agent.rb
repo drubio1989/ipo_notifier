@@ -15,7 +15,7 @@ class BrowserUseAgent < ApplicationAgent
     begin
       browser = Ferrum::Browser.new
       page = browser.create_page
-      page.go_to(@s1_filing_url)
+      page.go_to("https://www.sec.gov/search-filings")
 
       # Extract the raw HTML
       html = page.body
