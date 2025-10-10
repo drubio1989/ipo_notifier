@@ -68,7 +68,7 @@ group :test do
 end
 
 
-gem "tailwindcss-rails", "~> 4.2"
+gem "tailwindcss-rails", "~> 4.3"
 gem 'htmlbeautifier'
 gem 'httparty'
 gem "dockerfile-rails", ">= 1.7", :group => :development
