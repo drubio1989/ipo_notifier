@@ -90,3 +90,5 @@ gem "activeagent", "~> 0.6.2"
 gem "ruby-openai", "~> 8.3"
 
 gem "cuprite", "~> 0.17"
+
+gem "ferrum", "~> 0.17.1"

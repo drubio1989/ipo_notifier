@@ -455,6 +455,7 @@ DEPENDENCIES
   dotenv
   factory_bot_rails
   faker
+  ferrum (~> 0.17.1)
   htmlbeautifier
   httparty
   importmap-rails
