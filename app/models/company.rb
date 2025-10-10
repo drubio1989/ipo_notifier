@@ -1,5 +1,4 @@
 require 'httparty'
-require 'debug'
 
 class Company < ApplicationRecord
   
