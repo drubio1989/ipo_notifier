@@ -144,7 +144,7 @@ namespace :scrape do
       Dir.mkdir(tmp_folder) unless Dir.exist?(tmp_folder)
 
       # Build filename
-      filename = "#{company.company.downcase.gsub(" ","_")}-#{company.symbol}-S1.md"
+      filename = "#{company.company.downcase.gsub(" ", "_").gsub(/[.,]/, "")}-S1.md"
       file_path = tmp_folder.join(filename)
 
       # Write Markdown file (overwrite if it exists)

@@ -89,6 +89,10 @@ gem "activeagent", "~> 0.6.2"
 
 gem "ruby-openai", "~> 8.3"
 
-gem "cuprite", "~> 0.17"
 
-gem "ferrum", "~> 0.17.1"
+gem 'pinecone', git: 'https://github.com/ScotterC/pinecone'
+
+
+gem "langchainrb", "~> 0.19.5"
+
+gem "voyageai", "~> 1.9"
