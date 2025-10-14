@@ -26,4 +26,7 @@ class VoyageAIEmbedder
     # Returns an array of embeddings
     response.parsed_response["data"].map { |d| d["embedding"] }
   end
-end
+  
+ 
+
+  end

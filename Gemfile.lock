@@ -387,6 +387,9 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    rake-compiler-dock (1.9.1)
+    rb_sys (0.9.117)
+      rake-compiler-dock (= 1.9.1)
     rdoc (6.13.1)
       psych (>= 4.0.0)
     regexp_parser (2.10.0)
@@ -474,6 +477,12 @@ GEM
     thruster (0.1.12-aarch64-linux)
     thruster (0.1.12-arm64-darwin)
     thruster (0.1.12-x86_64-linux)
+    tiktoken_ruby (0.0.12)
+      rb_sys (~> 0.9)
+    tiktoken_ruby (0.0.12-aarch64-linux)
+    tiktoken_ruby (0.0.12-arm64-darwin)
+    tiktoken_ruby (0.0.12-x86_64-linux)
+    tiktoken_ruby (0.0.12-x86_64-linux-musl)
     timeout (0.4.3)
     trestle (0.10.1)
       activemodel (>= 6.0.0)
@@ -555,6 +564,7 @@ DEPENDENCIES
   stimulus-rails
   tailwindcss-rails (~> 4.2)
   thruster
+  tiktoken_ruby (~> 0.0.12)
   trestle (~> 0.10.1)
   trestle-auth (~> 0.5.0)
   turbo-rails
