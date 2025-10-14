@@ -1,7 +1,7 @@
-namespace :vector do
-  task vectorize_s1_filings: do
-    puts "Begin chunking......"
+# namespace :vector do
+#   task vectorize_s1_filings: do
+#     puts "Begin chunking......"
     
     
-  end
-end
+#   end
+# end
