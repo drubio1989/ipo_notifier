@@ -1,6 +1,7 @@
 require 'httparty'
 
 class Company < ApplicationRecord
+  has_many :conversations, dependent: :destroy
   
   def s1_filing
     return if cik == "#{0 * 10}"

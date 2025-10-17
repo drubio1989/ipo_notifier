@@ -1,0 +1,28 @@
+<div class="chat-page">
+  <h1 class="conversation-title">
+    Conversation: <%= @conversation.title.presence || "Untitled" %>
+  </h1>
+  <div id="chat-box" class="chat-box" role="log" aria-live="polite" aria-relevant="additions">
+    <% if @conversation.messages.any? %>
+      <% @conversation.messages.order(:created_at).each do |msg| %>
+        <div class="message <%= "role-#{msg.role.to_s.parameterize}" if msg.role.present? %>" data-role="<%= msg.role %>">
+          <div class="message-meta">
+            <span class="message-role"><%= msg.role&.capitalize || "Unknown" %></span>
+            <time class="message-time"><%= msg.created_at.strftime("%b %-d, %Y %H:%M") %></time>
+          </div>
+          <div class="message-content">
+            <%= sanitize(msg.content, tags: %w(p br strong em a code pre), attributes: %w(href target rel)) %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="no-messages">No messages yet — start the conversation below.</div>
+    <% end %>
+  </div>
+  <%= form_with model: @message, url: company_conversation_path(@company.id, @conversation.id), local: true, html: { class: "chat-form" } do |f| %>
+    <div class="form-column">
+      <%= f.text_area :content, rows: 3, placeholder: "Type your message...", class: "chat-textarea", aria: { label: "Message text" } %>
+      <%= f.submit "Send", class: "chat-submit" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,120 @@
+/* app/assets/stylesheets/chat.css */
+
+/* --- Layout wrapper --- */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f9fafa;
+  padding: 2rem;
+  color: #6a7282; /* text color */
+}
+
+/* --- Title --- */
+.conversation-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #009688; /* teal */
+  text-align: center;
+}
+
+/* --- Chat box --- */
+.chat-box {
+  border: 1px solid #dfe3e8;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(20, 20, 30, 0.04);
+  max-width: 700px;
+  width: 100%;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Message styles --- */
+.message {
+  display: block;
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  max-width: 85%;
+  word-wrap: break-word;
+  line-height: 1.5;
+  background: #f5f7f8;
+  border: 1px solid #e6eaed;
+}
+
+.role-user {
+  background: #e0f7f5;
+  border-left: 4px solid #00bba7;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.role-assistant {
+  background: #f0fdfa;
+  border-left: 4px solid #009688;
+  margin-right: auto;
+}
+
+.message-meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6a7282;
+  margin-bottom: 0.3rem;
+}
+
+.message-role {
+  font-weight: 600;
+  color: #009688;
+}
+
+.message-time {
+  color: #9ca3af;
+}
+
+/* --- Empty state --- */
+.no-messages {
+  text-align: center;
+  font-style: italic;
+  color: #6a7282;
+}
+
+/* --- Form --- */
+.chat-form {
+  max-width: 700px;
+  width: 100%;
+  background: white;
+  border: 1px solid #dfe3e8;
+  border-radius: 12px;
+  padding: 1rem;
+  b
+
+  .chat-submit {
+  background-color: #009688;  /* teal base */
+  color: #fff;
+  padding: 0.7rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 150, 136, 0.2);
+}
+
+.chat-submit:hover {
+  background-color: #00bba7;  /* lighter teal hover */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 187, 167, 0.3);
+}
+
+.chat-submit:active {
+  background-color: #00897b;  /* slightly darker for press effect */
+  transform: translateY(0);
+  box-shadow: 0 2px 3px rgba(0, 150, 136, 0.25);
+}

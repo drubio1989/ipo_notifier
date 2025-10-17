@@ -56,6 +56,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "byebug", "~> 12.0"
   gem "letter_opener"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
@@ -98,3 +99,5 @@ gem "langchainrb", "~> 0.19.5"
 gem "voyageai", "~> 1.9"
 
 gem "tiktoken_ruby", "~> 0.0.12"
+
+

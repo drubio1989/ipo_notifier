@@ -12,7 +12,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root to: "home#index"
 
-  get "/research", to: "finance#research", as: :research
+
+  resources :companies, only: [:show] do
+    resources :conversations, only: [:show] do
+      post :create, on: :member
+    end
+  end
+
   post "/subscribe", to: "subscribers#create",   as: :subscribe
   get "/unsubscribe/:token", to: "subscribers#unsubscribe", as: :unsubscribe
   get "/confirmation/success", to: "subscribers#confirmation_success", as: :confirmation_success

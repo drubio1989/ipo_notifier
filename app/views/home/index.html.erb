@@ -42,16 +42,17 @@
           </tr>
         </thead>
         <tbody>
-          <% @ipo_calendar_data.each do |ipo|%>
+          <% @companies.each do |c|%>
             <tr class="even:bg-teal-100 odd:bg-white dark:even:bg-teal-100" >
-              <td class="py-2 px-4"><%= ipo.company %></td>
-              <td class="py-2 px-4"><%= ipo.symbol %></td>
-              <td class="py-2 px-4"><%= ipo.estimated_volume %></td>
-              <td class="py-2 px-4"><%= ipo.expected_to_trade.strftime("%A, %B %-d") %></td>
-              <td class="py-2 px-4"><%= ipo.lead_managers %></td>
-              <td class="py-2 px-4"><%= ipo.no_of_shares %> mil</td>
-              <td class="py-2 px-4">$<%= ipo.price_high %></td>
-              <td class="py-2 px-4">$<%= ipo.price_low %></td>
+              <td class="py-2 px-4"><%= link_to c.company, company_path(c.id) %>
+              </td>
+              <td class="py-2 px-4"><%= c.symbol %></td>
+              <td class="py-2 px-4"><%= c.estimated_volume %></td>
+              <td class="py-2 px-4"><%= c.expected_to_trade.strftime("%A, %B %-d") %></td>
+              <td class="py-2 px-4"><%= c.lead_managers %></td>
+              <td class="py-2 px-4"><%= c.no_of_shares %> mil</td>
+              <td class="py-2 px-4">$<%= c.price_high %></td>
+              <td class="py-2 px-4">$<%= c.price_low %></td>
             </tr>
           <%end%>
         </tbody>

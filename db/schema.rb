@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_08_175518) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_153640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_175518) do
     t.string "s1_filing_url"
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_conversations_on_company_id"
+  end
+
   create_table "mailkick_subscriptions", force: :cascade do |t|
     t.string "subscriber_type"
     t.bigint "subscriber_id"
@@ -36,6 +44,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_175518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["subscriber_type", "subscriber_id", "list"], name: "index_mailkick_subscriptions_on_subscriber_and_list", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id"
+    t.string "role"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "subscribers", force: :cascade do |t|
@@ -62,4 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_175518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "conversations", "companies"
+  add_foreign_key "messages", "conversations"
 end
