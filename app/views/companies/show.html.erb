@@ -1,7 +1,14 @@
 <div class="chat-page">
   <h1 class="conversation-title">
-    Conversation: <%= @conversation.title.presence || "Untitled" %>
+    Try asking the following:
   </h1>
+  <ul class="list-disc list-inside max-w-2xl mx-auto text-center space-y-3 text-gray-500 font-mono">
+    <li>1. Can you provide a summary of the key details from [Company Name]’s latest S-1 filing?</li>
+    <li>2. What are the most common risk factors disclosed in recent S-1 filings?</li>
+    <li>3. What valuation or share price range does [Company Name] indicate in its S-1 filing?</li>
+    <li>4. How does [Company Name] plan to use the proceeds from its IPO as outlined in the S-1?</li>
+  </ul>
+  <br>
   <div id="chat-box" class="chat-box" role="log" aria-live="polite" aria-relevant="additions">
     <% if @conversation.messages.any? %>
       <% @conversation.messages.order(:created_at).each do |msg| %>
@@ -21,8 +28,15 @@
   </div>
   <%= form_with model: @message, url: company_conversation_path(@company.id, @conversation.id), local: true, html: { class: "chat-form" } do |f| %>
     <div class="form-column">
-      <%= f.text_area :content, rows: 3, placeholder: "Type your message...", class: "chat-textarea", aria: { label: "Message text" } %>
-      <%= f.submit "Send", class: "chat-submit" %>
+      <div class="flex flex-col space-y-3">
+        <%= f.text_area :content, 
+      rows: 3, 
+      placeholder: "Type your message...",
+      class: "rounded-md border border-gray-300 bg-gray-100 text-gray-800 py-2 px-3 w-full resize-none focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent", 
+      aria: { label: "Message text" } %>
+        <%= f.submit "Send", 
+      class: "bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm font-semibold border-4 text-white py-2 px-4 rounded transition-colors duration-200 sm:w-auto self-end" %>
+      </div>
     </div>
   <% end %>
 </div>
