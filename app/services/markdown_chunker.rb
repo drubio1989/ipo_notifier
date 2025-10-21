@@ -1,7 +1,7 @@
 require "langchain"
 
 class MarkdownChunker
-  def initialize(file_path:, chunk_size: 1000, chunk_overlap: 200)
+  def initialize(file_path:, chunk_size: 500, chunk_overlap: 10)
     @file_path = file_path
     @chunk_size = chunk_size
     @chunk_overlap = chunk_overlap
