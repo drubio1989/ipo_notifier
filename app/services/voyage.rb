@@ -2,15 +2,8 @@
 require "httparty"
 require "json"
 
-class VoyageAIEmbedder
-  include HTTParty
-  base_uri "https://api.voyageai.com/v1"
-
+class Voyage
   def initialize
-    @headers = {
-      "Authorization" => "Bearer #{Rails.application.credentials.voyageai.api_key}",
-      "Content-Type" => "application/json"
-    }
   end
 
   # Accepts an array of strings (chunks)
@@ -20,13 +13,17 @@ class VoyageAIEmbedder
       input: texts
     }.to_json
 
-    response = self.class.post("/embeddings", headers: @headers, body: body)
+    response = HTTParty.post("https://api.voyageai.com/v1/embeddings", 
+      headers:  {
+        "Authorization" => "Bearer #{Rails.application.credentials.voyageai.api_key}",
+        "Content-Type" => "application/json"
+      }, 
+      body: body
+    )
+      
     raise "VoyageAI API error: #{response.body}" unless response.success?
 
     # Returns an array of embeddings
     response.parsed_response["data"].map { |d| d["embedding"] }
   end
-  
- 
-
-  end
+end
