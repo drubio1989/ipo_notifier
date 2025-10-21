@@ -91,7 +91,6 @@ gem "activeagent", "~> 0.6.2"
 gem "ruby-openai", "~> 8.3"
 
 
-gem 'pinecone', git: 'https://github.com/ScotterC/pinecone'
 
 
 gem "langchainrb", "~> 0.19.5"
@@ -101,3 +100,4 @@ gem "voyageai", "~> 1.9"
 gem "tiktoken_ruby", "~> 0.0.12"
 
 
+gem "pinecone", "~> 1.2"

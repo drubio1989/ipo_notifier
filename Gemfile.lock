@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/ScotterC/pinecone
-  revision: 302258a426c8a031d9e62e3ea9859d1fa8b47c3c
-  specs:
-    pinecone (1.2.1)
-      dry-struct (~> 1.6)
-      dry-validation (~> 1.10)
-      httparty (~> 0.22.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -331,6 +322,10 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
+    pinecone (1.2.1)
+      dry-struct (~> 1.6)
+      dry-validation (~> 1.10)
+      httparty (~> 0.22.0)
     pp (0.6.2)
       prettyprint
     pragmatic_segmenter (0.3.24)
@@ -553,7 +548,7 @@ DEPENDENCIES
   net-http (~> 0.6.0)
   nokogiri
   pg (~> 1.1)
-  pinecone!
+  pinecone (~> 1.2)
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)
