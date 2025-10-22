@@ -30,7 +30,8 @@ namespace :vector_storage do
           id: "#{company.snake_case_name}document#{i}chunk#{i}",
           values: embedding,        
           metadata: { 
-            company: company.snake_case_name
+            company: company.snake_case_name,
+            text: chunks[i]
           } 
         }
       end

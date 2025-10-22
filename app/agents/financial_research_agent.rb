@@ -13,16 +13,15 @@ class FinancialResearchAgent < ApplicationAgent
   
   def set_rag_context
     @question = params[:message]
-    query_embedding = voyage.embed([@question]).first
-    results = pinecone.query(query_embedding)
-    @context = results.map { |r| r[:text] }.join("\n---\n")
-  end
-  
-  def pinecone
-    @pinecone ||= PineconeQuery.new
-  end
-  
-  def voyage
-    @embedder = VoyageAIEmbedder.new
+    @company = params[:company]
+    embedded_query = VoyageAI::Client.new.embed([@question], model: "voyage-finance-2").embeddings[0]
+    response = Pinecone::Client.new.index.query(
+      vector: embedded_query,
+      top_k: 5,
+      include_metadata: true,
+      namespace: @company.snake_case_name
+    )
+    
+   @context = response["matches"].map { |match| match["metadata"]["text"] }.join("\n---\n")  
   end
 end
