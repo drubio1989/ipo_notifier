@@ -58,7 +58,7 @@ namespace :scrape do
       next if company_data['Company'].blank?
 
       Company.create!(
-        company: company_data['Company'],
+        name: company_data['Company'],
         symbol: company_data['Symbol'],
         lead_managers: company_data['LeadManagers'],
         no_of_shares: company_data['NoOfShares'],
@@ -144,7 +144,7 @@ namespace :scrape do
       Dir.mkdir(tmp_folder) unless Dir.exist?(tmp_folder)
 
       # Build filename
-      filename = "#{company.company.downcase.gsub(" ", "_").gsub(/[.,]/, "")}-S1.md"
+      filename = "#{company.uuid}.md"
       file_path = tmp_folder.join(filename)
 
       # Write Markdown file (overwrite if it exists)

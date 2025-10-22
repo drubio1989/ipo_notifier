@@ -38,7 +38,11 @@ class ConversationsController < ApplicationController
 
   # Stub method for generating a response
   def generate_response(user_input)
-    "Echo: #{user_input}"  # Replace with AI / bot logic if needed
+       response = FinancialResearchAgent.with(
+      message: @message.content,
+    ).research.generate_now
+    puts response.inspect
+   
   end
 end
 

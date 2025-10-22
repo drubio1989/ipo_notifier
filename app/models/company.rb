@@ -3,8 +3,8 @@ require 'httparty'
 class Company < ApplicationRecord
   has_many :conversations, dependent: :destroy
   
-  def name
-    self.company
+  def snake_case_name
+    name.gsub(" ", "").gsub(",", "").gsub(",", "").gsub(".", "").underscore
   end
   
   def s1_filing

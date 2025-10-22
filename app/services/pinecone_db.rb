@@ -13,7 +13,6 @@ class PineconeDB
   end
   
   def list_namespaces
-    puts "https://#{INDEX_HOST}/namespaces"
     response = HTTParty.get("https://#{INDEX_HOST}/namespaces", 
       headers: { 
           "Api-Key" => "#{API_KEY }",
@@ -22,6 +21,27 @@ class PineconeDB
     )
     { code: response.code, body: response.parsed_response }
   end
+  
+ def delete_namespace(namespace)
+    url = "https://#{INDEX_HOST}/namespaces/#{namespace}"
+    headers = {
+      "Api-Key" => API_KEY,
+      "X-Pinecone-API-Version" => API_VERSION,
+      "Content-Type" => "application/json",
+      "Accept" => "application/json"
+    }
+
+    response = HTTParty.delete(url, headers: headers)
+    {
+      code: response.code,
+      body: response.parsed_response
+    }
+    rescue => e
+    { error: e.message }
+    
+    puts response
+  end
+
   
   def create_company_namespaces    
     Company.all.map do |company|
@@ -49,16 +69,14 @@ class PineconeDB
    end
   end
 
-  # chunks: array of Langchain::Chunk
-  # embeddings: array of arrays (from VoyageAI)
-  def upsert(chunks, embeddings)
-    raise "Chunks and embeddings must have same size" unless chunks.size == embeddings.size
-
+  def upsert(embeddings)   
     vectors = chunks.each_with_index.map do |chunk, i|
       {
-        id: SecureRandom.uuid,         # unique ID for Pinecone
-        values: embeddings[i],         # embedding vector
-        metadata: { text: chunk.text } # optional metadata
+        id: "#{ccompany.snake_case_name}document#{i}chunk#{i}",
+        values: embeddings[i],        
+        metadata: { 
+          company: "#{company.snake_case_name}"
+        } 
       }
     end
 

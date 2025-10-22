@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_17_153640) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_22_154427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "companies", force: :cascade do |t|
-    t.string "company"
+    t.string "name"
     t.string "symbol"
     t.string "lead_managers"
     t.string "no_of_shares"
@@ -27,6 +27,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_153640) do
     t.datetime "updated_at", null: false
     t.string "cik"
     t.string "s1_filing_url"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_companies_on_uuid", unique: true
   end
 
   create_table "conversations", force: :cascade do |t|

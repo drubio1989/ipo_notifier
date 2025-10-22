@@ -1,15 +1,17 @@
-namespace :vector do
-  task vectorize_s1_filings: do
+namespace :vector_storage do
+  task vectorize_s1_filings: :environment do
     puts "Begin chunking......"
     # Loop through all Markdown files in tmp/s1_filings
     Dir.glob(Rails.root.join("tmp", "s1_filings", "*.md")).each do |file_path|
       puts "Processing file: #{file_path}"
+      company = Company.find_by(uuid: File.basename(file_path, ".md"))
+      
       mdc = MarkdownChunker.new(file_path: file_path)
       chunks = mdc.process_file
       puts "Begin embedding....."
       all_embeddings = []
       voyageai = VoyageAI::Client.new
-      chunks.each_slice(500) do |batch|
+      chunks.each_slice(250) do |batch|
         response = voyageai.embed(batch,
           model: "voyage-finance-2",
         )
@@ -17,10 +19,26 @@ namespace :vector do
         all_embeddings << response.embeddings
       end
 
-      all_embeddings
-      puts "Begin uploading to vector storate"
-      # yet to be implemented
+      embeddings = all_embeddings.flatten(1)
+
+      puts "Begin uploading to vector storage"
+      pinecone = Pinecone::Client.new
+      p_index = pinecone.index
       
+      vectors = embeddings.map.with_index do |embedding, i|
+         {
+          id: "#{company.snake_case_name}document#{i}chunk#{i}",
+          values: embedding,        
+          metadata: { 
+            company: company.snake_case_name
+          } 
+        }
+      end
+      
+      p_index.upsert(
+        namespace: "#{company.snake_case_name}",
+        vectors: vectors
+      )
     end
   end
   puts "Vectorization and storage complete!"
