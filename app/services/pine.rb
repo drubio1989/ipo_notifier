@@ -6,7 +6,7 @@ INDEX_HOST = Rails.application.credentials.pinecone.host
 API_VERSION = "2025-10"
 API_KEY = Rails.application.credentials.pinecone.api_key
 
-class PineconeDB
+class Pine
   def initialize
     @client = Pinecone::Client.new
     @index = @client.index(Rails.application.credentials.pinecone.index)
