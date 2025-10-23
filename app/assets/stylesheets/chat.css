@@ -22,8 +22,7 @@
 
 /* --- Chat box --- */
 .chat-box {
-  border: 1px solid #dfe3e8;
-  background: white;
+  background: #f9fafa;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(20, 20, 30, 0.04);
   max-width: 700px;

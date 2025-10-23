@@ -6,7 +6,7 @@ class FinancialResearchAgent < ApplicationAgent
   before_action :set_rag_context
   
   on_stream :broadcast_message
-    
+  
   def research
     prompt(
       context_type: :html
@@ -17,19 +17,31 @@ class FinancialResearchAgent < ApplicationAgent
   
   def broadcast_message
     response = generation_provider.response
+    delta = stream_chunk&.delta
+    conversation = Conversation.find(params[:conversation_id])
 
-    # Determine whether we are receiving an incremental delta or final message
-    message = stream_chunk.delta.presence || response.message.content
+    # Only create one assistant message per response
+    @assistant_message ||= conversation.messages.create!(role: "assistant", content: "")
 
+    if delta.present?
+      # Append chunk progressively
+      @assistant_message.update!(content: "#{@assistant_message.content}#{delta}")
+    else
+      # Final update
+      @assistant_message.update!(content: response.message.content)
+      @assistant_message = nil
+    end
+
+    # Broadcast to frontend
     ActionCable.server.broadcast(
-      "conversation_#{params[:conversation_id]}",
-      {
-        chunk: message,
-        role: "assistant"
-      }
+      "conversation_#{conversation.id}",
+      {message_id: @assistant_message.id,
+      delta: delta || response.message.content,
+      done: delta.nil?,
+      role: "assistant"}
     )
   end
-  
+    
   def set_rag_context
     @question = params[:message]
     @company = params[:company]

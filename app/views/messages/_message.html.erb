@@ -1,0 +1,9 @@
+<div class="message <%= "role-#{msg.role.to_s.parameterize}" if msg.role.present? %>" data-role="<%= msg&.role %>">
+  <div class="message-meta">
+    <span class="message-role font-semibold"><%= msg.role.capitalize %>:</span>
+    <time class="message-time text-xs text-gray-400"><%= msg.created_at.strftime("%b %-d, %Y %H:%M") %></time>
+  </div>
+  <div class="message-content text-gray-800 mt-1">
+    <%= sanitize(msg.content, tags: %w(p br strong em a code pre), attributes: %w(href target rel)) %>
+  </div>
+</div>
