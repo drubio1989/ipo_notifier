@@ -2,7 +2,7 @@
 class CompaniesController < ApplicationController
   layout "conversation"
   
-  # before_action :clear_conversation
+  before_action :clear_conversation
   
   def show
     @company = Company.find(params[:id])
