@@ -1,7 +1,11 @@
 class FinancialResearchAgent < ApplicationAgent
-  generate_with :openai, model: "gpt-4o-mini"
+  generate_with :openai, 
+    model: "gpt-4o-mini", 
+    stream: true
   
   before_action :set_rag_context
+  
+  on_stream :broadcast_message
     
   def research
     prompt(
@@ -10,6 +14,21 @@ class FinancialResearchAgent < ApplicationAgent
   end
   
   private
+  
+  def broadcast_message
+    response = generation_provider.response
+
+    # Determine whether we are receiving an incremental delta or final message
+    message = stream_chunk.delta.presence || response.message.content
+
+    ActionCable.server.broadcast(
+      "conversation_#{params[:conversation_id]}",
+      {
+        chunk: message,
+        role: "assistant"
+      }
+    )
+  end
   
   def set_rag_context
     @question = params[:message]
@@ -21,7 +40,7 @@ class FinancialResearchAgent < ApplicationAgent
       include_metadata: true,
       namespace: @company.snake_case_name
     )
-    
+   
    @context = response["matches"].map { |match| match["metadata"]["text"] }.join("\n---\n")  
   end
 end

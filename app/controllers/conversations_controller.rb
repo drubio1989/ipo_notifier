@@ -2,7 +2,6 @@ class ConversationsController < ApplicationController
   before_action :set_company
   before_action :set_conversation
 
-  #<ActionController::Parameters {"authenticity_token" => "0e1uY-ZTu6SvWlFp8D7TgGQJodhphvnEGaLcEg2xHzSO3Opa2-MGHUdf0sUjQT_YGidKaDRk8O3Gx9oDX8b_Ug", "message" => {"content" => ""}, "commit" => "Send", "controller" => "conversations", "action" => "create", "company_id" => "46", "id" => "40"} permitted: false>
   def create
     @message = @conversation.messages.create!(
       content: params[:message][:content],
@@ -11,8 +10,9 @@ class ConversationsController < ApplicationController
 
     @agent_response = FinancialResearchAgent.with(
       message: @message.content,
-      company: @company
-    ).research.generate_now
+      company: @company,
+      conversation_id: @conversation.id
+    ).research.generate_now 
    
     @conversation.messages.create!(
       content: @agent_response.message.content,
@@ -34,9 +34,3 @@ class ConversationsController < ApplicationController
     @conversation = @company.conversations.find(params[:id])
   end
 end
-
-
-   #  response = FinancialResearchAgent.with(
-    #   message: user_message.content,
-    # ).research.generate_now
-   
