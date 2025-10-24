@@ -1,4 +1,5 @@
 0 6,18 * * * cd /rails && RAILS_ENV=production bundle exec rake "scrape:companies"
 15 6,18 * * * cd /rails && RAILS_ENV=production bundle exec rake "scrape:company_cik_and_s1"
 30 6,18 * * * cd /rails && RAILS_ENV=production bundle exec rake "scrape:company_s1_download"
+40 6,18 * * * cd /rails && RAILS_ENV=production bundle exec rake "vector_storage:vectorize_s1_filings"
 0 8 * * * cd /rails && RAILS_ENV=production bundle exec rake "subscribers:notify"
