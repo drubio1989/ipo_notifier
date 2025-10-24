@@ -1,3 +1,5 @@
+require 'langchain'
+
 namespace :vector_storage do
   task vectorize_s1_filings: :environment do
     puts "Begin chunking......"
@@ -6,8 +8,14 @@ namespace :vector_storage do
       puts "Processing file: #{file_path}"
       company = Company.find_by(uuid: File.basename(file_path, ".md"))
       
-      mdc = MarkdownChunker.new(file_path: file_path)
-      chunks = mdc.process_file
+      splitter = Langchain::Chunker::Markdown.new(
+          File.read(file_path),
+          chunk_size: 850,
+          chunk_overlap:100
+        )
+
+      chunks = splitter.chunks.map { |chunk| chunk.text }
+     
       puts "Begin embedding....."
       all_embeddings = []
       voyageai = VoyageAI::Client.new

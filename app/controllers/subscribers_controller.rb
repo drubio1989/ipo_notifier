@@ -43,6 +43,7 @@ class SubscribersController < ApplicationController
         confirmation_token: nil,
         confirmation_sent_at: nil
       )
+
       subscriber.subscribe("ipo-notifier")
       SubscriptionMailer.with(subscriber: subscriber).welcome.deliver_now
       redirect_to confirmation_success_path
