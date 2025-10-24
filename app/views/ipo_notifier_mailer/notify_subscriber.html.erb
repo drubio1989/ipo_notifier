@@ -18,7 +18,7 @@
   <tbody>
     <% @ipos.each do |ipo| %>
       <tr>
-        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.company %></td>
+        <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.name %></td>
         <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.symbol %></td>
         <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.estimated_volume %></td>
         <td style="border: 1px solid #e5e7eb; padding: 8px;"><%= ipo.expected_to_trade.strftime("%A, %B %d, %Y") %></td>
