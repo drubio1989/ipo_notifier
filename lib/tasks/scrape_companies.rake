@@ -10,8 +10,14 @@ namespace :scrape do
     puts "Removing old data......"
     
 
-    Find.find("#{Rails.root}/tmp/s1_filings") do |path|
-      File.delete(path) if File.file?(path)
+   filings_path = Rails.root.join("tmp", "s1_filings")
+
+    if Dir.exist?(filings_path)
+      Find.find(filings_path) do |path|
+        File.delete(path) if File.file?(path)
+      end
+    else
+      FileUtils.mkdir_p(filings_path)
     end
     
     Company.destroy_all
@@ -95,9 +101,9 @@ namespace :scrape do
 
     unless response.success?
       puts "Failed to fetch data"
-      next
+      return   # exits the method immediately
     end
-    
+      
     sec_data = response.values.map do |company|
       company.transform_keys do |key|
         key == "ticker" ? company["ticker"] : key
@@ -105,10 +111,17 @@ namespace :scrape do
     end
      
     companies.each do |company|
-      match = sec_data.find { |listing| listing.key? company.symbol }
-      
+      # First try to match by symbol
+      match = sec_data.find { |listing| listing.key?(company.symbol) }
+
+      # Fallback: try matching by company name if no symbol match
       if match.nil?
-        company.update(cik: "#{0 * 10}")
+        match = sec_data.find { |listing| listing["title"].to_s.downcase == company.name.to_s.downcase }
+      end
+
+      # Update the company CIK
+      if match.nil?
+        company.update(cik: "0000000000")  # 10 zeros
       else
         company.update(cik: match["cik_str"].to_s)
       end
@@ -116,6 +129,7 @@ namespace :scrape do
     
     companies.each do |company|
       next if company.cik == "#{0 * 10}"
+   
       company.update(s1_filing_url: company.s1_filing)
     end
     
@@ -126,7 +140,7 @@ namespace :scrape do
   task company_s1_download: :environment do
     puts "Begin scraping for company's s1 filing document"
     
-    companies = Company.all
+    companies = Company.where.not(s1_filing_url: nil)
     companies.each do |company|   
       res = HTTParty.get(
           company.s1_filing_url ,
