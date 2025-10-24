@@ -3,6 +3,7 @@ import consumer from "channels/consumer"
 document.addEventListener("DOMContentLoaded", () => {
   const chatBox = document.getElementById("chat-box")
   const conversationData = document.getElementById("conversation-data")
+  if (!chatBox || !conversationData) return
   const conversationId = conversationData.dataset.conversationId
 
   // ActionCable subscription
