@@ -1,7 +1,5 @@
 class FinancialResearchAgent < ApplicationAgent
-  generate_with :openai, 
-    model: "gpt-4o-mini", 
-    stream: true
+  generate_with :openai, model: "gpt-4o-mini", stream: true
   
   before_action :set_rag_context
   
@@ -13,34 +11,61 @@ class FinancialResearchAgent < ApplicationAgent
     )
   end
   
+  def broadcast_message
+    @conversation = params[:conversation]
+    delta = stream_chunk&.delta
+    response = generation_provider.response
+
+    @assistant_message ||= create_assistant_message
+
+    delta.present? ? append_delta(delta) : finalize_message(response)
+
+    broadcast_to_frontend(delta, response)
+    cleanup_if_done(delta)
+  end
+  
   private
   
-  def broadcast_message
-    response = generation_provider.response
-    delta = stream_chunk&.delta
-    conversation = Conversation.find(params[:conversation_id])
+  def create_assistant_message
+    @conversation.messages.create!(role: "assistant", content: "")
+  end
 
-    # Only create one assistant message per response
-    @assistant_message ||= conversation.messages.create!(role: "assistant", content: "")
+  def append_delta(delta)
+    @assistant_message.update!(content: "#{@assistant_message.content}#{delta}")
+  end
 
-    if delta.present?
-      # Append chunk progressively
-      @assistant_message.update!(content: "#{@assistant_message.content}#{delta}")
-    else
-      # Final update
-      @assistant_message.update!(content: response.message.content)
-      @assistant_message = nil
-    end
+  def finalize_message(response)
+    @assistant_message.update!(content: response.message.content)
+  end
 
-    # Broadcast to frontend
+  def broadcast_to_frontend(delta, response)
     ActionCable.server.broadcast(
-      "conversation_#{conversation.id}",
-      {message_id: @assistant_message.id,
-      delta: delta || response.message.content,
-      done: delta.nil?,
-      role: "assistant"}
+      "conversation_#{@conversation.id}",
+      {
+        message_id: @assistant_message.id,
+        delta: delta || response.message.content,
+        done: delta.nil?,
+        role: "assistant"
+      }
     )
   end
+
+  def cleanup_if_done(delta)
+    @assistant_message = nil if delta.nil?
+  end
+    
+  def broadcast_to_frontend(delta, response)
+    ActionCable.server.broadcast(
+      "conversation_#{@conversation.id}",
+      {
+        message_id: @assistant_message.id,
+        delta: delta || response.message.content,
+        done: delta.nil?,
+        role: "assistant"
+      }
+    )
+  end
+
     
   def set_rag_context
     @question = params[:message]

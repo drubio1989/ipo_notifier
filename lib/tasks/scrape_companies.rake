@@ -1,12 +1,19 @@
 # lib/tasks/scrape_companies.rake
 require 'httparty'
 require 'nokogiri'
+require "find"
 
 namespace :scrape do
   desc "Scrape IPO Scoop and save company data"
   task companies: :environment do
     puts 'Starting......'
     puts "Removing old data......"
+    
+
+    Find.find("#{Rails.root}/tmp/s1_filings") do |path|
+      File.delete(path) if File.file?(path)
+    end
+    
     Company.destroy_all
 
     puts "Begin Scraping........"
@@ -74,9 +81,10 @@ namespace :scrape do
     puts "Scraping complete."
   end
   
-  desc "Scrape a company's cik number and s2 filing url"
+  desc "Scrape a company's cik number and s1 filing url"
   task company_cik_and_s1: :environment do
     puts 'Starting......'
+    
     
     companies = Company.all
     
@@ -118,7 +126,7 @@ namespace :scrape do
   task company_s1_download: :environment do
     puts "Begin scraping for company's s1 filing document"
     
-    companies = Company.where.not(s1_filing_url: nil)
+    companies = Company.all
     companies.each do |company|   
       res = HTTParty.get(
           company.s1_filing_url ,

@@ -42,5 +42,4 @@ namespace :vector_storage do
       )
     end
   end
-  puts "Vectorization and storage complete!"
 end

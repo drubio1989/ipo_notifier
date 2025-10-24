@@ -11,7 +11,7 @@ class ConversationsController < ApplicationController
     @agent_response = FinancialResearchAgent.with(
       message: params[:message][:content],
       company: @company,
-      conversation_id: @conversation.id
+      conversation: @conversation
     ).research.generate_later
    
    
