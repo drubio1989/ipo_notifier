@@ -1,6 +1,25 @@
+# Shared OpenAI configuration
+openai: &openai
+  service: "OpenAI"
+  access_token: <%= Rails.application.credentials.dig(:openai, :api_key) %>
+
+# Development configuration
 development:
   openai:
-    service: "OpenAI"
-    api_key: <%= Rails.application.credentials.dig(:openai, :api_key) %>
+    <<: *openai
+    model: "gpt-4o-mini"
+    temperature: 0.7
+
+# Test configuration
+test:
+  openai:
+    <<: *openai
+    model: "gpt-4o-mini"
+    temperature: 0.7
+
+# Production configuration
+production:
+  openai:
+    <<: *openai
     model: "gpt-4o-mini"
     temperature: 0.7
