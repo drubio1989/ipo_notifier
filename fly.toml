@@ -43,6 +43,7 @@ console_command = '/rails/bin/rails console'
 [processes]
   app = './bin/rails server'
   cron = "supercronic /rails/crontab"
+  worker = "./bin/rails solid_queue:start"
 
 [[services]]
   processes = ["app"]
