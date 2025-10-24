@@ -13,8 +13,8 @@ class FinancialResearchAgent < ApplicationAgent
   
   def broadcast_message
     @conversation = params[:conversation]
-    delta = stream_chunk&.delta
     response = generation_provider.response
+    delta = stream_chunk&.delta
 
     @assistant_message ||= create_assistant_message
 
