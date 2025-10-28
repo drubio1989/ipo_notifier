@@ -4,7 +4,7 @@ class Company < ApplicationRecord
   has_many :conversations, dependent: :destroy
   
   def snake_case_name
-    name.gsub(" ", "").gsub(",", "").gsub(",", "").gsub(".", "").underscore
+    name.to_s.gsub(/[ ,.]/, '').underscore
   end
   
   def s1_filing

@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
   def show
     @company = Company.includes(conversations: :messages).find(params[:id])
     @conversation = @company.conversations.where(visitor_token: @visitor_token).first
-    Conversation.create!(company: @company, visitor_token: @visitor_token) if @conversation.nil?
+    @conversation = Conversation.create!(company: @company, visitor_token: @visitor_token) if @conversation.nil?
     @message = Message.new
   end
 end
