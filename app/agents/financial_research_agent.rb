@@ -39,8 +39,8 @@ class FinancialResearchAgent < ApplicationAgent
   end
 
   def broadcast_to_frontend(delta, response)
-    ActionCable.server.broadcast(
-      "conversation_#{@conversation.id}",
+    ConversationChannel.broadcast_to(
+      @conversation,
       {
         message_id: @assistant_message.id,
         delta: delta || response.message.content,
@@ -54,18 +54,6 @@ class FinancialResearchAgent < ApplicationAgent
     @assistant_message = nil if delta.nil?
   end
     
-  def broadcast_to_frontend(delta, response)
-    ActionCable.server.broadcast(
-      "conversation_#{@conversation.id}",
-      {
-        message_id: @assistant_message.id,
-        delta: delta || response.message.content,
-        done: delta.nil?,
-        role: "assistant"
-      }
-    )
-  end
-
     
   def set_rag_context
     @question = params[:message]
