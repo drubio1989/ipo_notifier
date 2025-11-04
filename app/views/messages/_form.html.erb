@@ -1,6 +1,5 @@
- <%= form_with model: message,
-     
-      url: company_conversation_path(@company.id, @conversation.id),
+ <%= form_with model: Message.new,
+      url: company_conversation_path(company, conversation),
       local: false,
       html: {  id: "new_message", class: "chat-form max-w-2xl mx-auto mt-4" } do |f| %>
   <div class="flex flex-col space-y-3">

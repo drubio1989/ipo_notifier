@@ -3,25 +3,21 @@ class ConversationsController < ApplicationController
   before_action :set_conversation
 
   def create
-   @message = @conversation.messages.create!(
+    @message = @conversation.messages.create(
       content: params[:message][:content],
-      role: "user"  # optional if you track role
+      role: "user"
     )
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to company_path(@company) }
+    end
     
-    @agent_response = FinancialResearchAgent.with(
+    FinancialResearchAgent.with(
       message: params[:message][:content],
       company: @company,
       conversation: @conversation
-    ).research.generate_later
-   
-   
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to company_path(@company) } # fallback
-    end
-  rescue ActiveRecord::RecordInvalid => e
-    flash[:alert] = "Failed to send message: #{e.message}"
-    redirect_to company_path(@company)
+    ).research.generate_now
   end
 
   private

@@ -18,8 +18,10 @@ Rails.application.routes.draw do
       post :create, on: :member
     end
   end
+  
+  resources :subscribers, only: [:create]
 
-  post "/subscribe", to: "subscribers#create",   as: :subscribe
+
   get "/unsubscribe/:token", to: "subscribers#unsubscribe", as: :unsubscribe
   get "/confirmation/success", to: "subscribers#confirmation_success", as: :confirmation_success
   get "/confirmation/error", to: "subscribers#confirmation_error", as: :confirmation_error

@@ -1,13 +1,8 @@
-<turbo-stream action="update" target="subscription_response">
-  <template>
-    <% if @message_type == :success %>
-      <div class="text-green-500 font-bold">
-        <%= @message %>
-      </div>
-    <% else %>
-      <div class="text-red-500 font-bold">
-        <%= @message %>
-      </div>
-    <% end %>
-  </template>
-</turbo-stream>
+<%= turbo_stream.append "notification" do %>
+  <div class="<%= @message_type == :success ? 'text-green-500' : 'text-red-500' %> font-bold">
+    <%= @message %>
+  </div>
+<% end %>
+<%= turbo_stream.replace "new_subscriber" do %>
+  <%= render "application/subscribe_form" %>
+<% end %>

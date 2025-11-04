@@ -1,29 +1,26 @@
-<div class="chat-page">
-  <h1 class="conversation-title">
-    Try asking the following:
-  </h1>
-  <ul class="list-disc list-inside max-w-3xl mx-auto text-center space-y-3 text-gray-500 font-mono text-sm">
-    <li>Can you provide a summary of the key details from [Company Name]’s latest S-1 filing?</li>
-    <li>What are the most common risk factors disclosed in recent S-1 filings?</li>
-    <li>What valuation or share price range does [Company Name] indicate in its S-1 filing?</li>
-    <li>How does [Company Name] plan to use the proceeds from its IPO as outlined in the S-1?</li>
-  </ul>
-  <br>
-  <!-- CHAT BOX -->
-  <div id="chat-box"
-       data-conversation-id="<%= @conversation.id %>"
-       class="chat-box space-y-4 max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md overflow-y-auto"
-       role="log" aria-live="polite" aria-relevant="additions">
-    <% if @conversation.messages.any? %>
-      <% @conversation.messages.order(:created_at).each do |msg| %>
-        <%= render partial: "messages/message", locals: {msg: msg } %>
-      <% end %>
+<%= turbo_stream_from "messages_for_conversation_#{@conversation.id}" %>
+<h1 class="conversation-title">
+  Try asking the following:
+</h1>
+<ul class="list-disc list-inside max-w-3xl mx-auto text-center space-y-3 text-gray-500 font-mono text-sm">
+  <li>Can you provide a summary of the key details from [Company Name]’s latest S-1 filing?</li>
+  <li>What are the most common risk factors disclosed in recent S-1 filings?</li>
+  <li>What valuation or share price range does [Company Name] indicate in its S-1 filing?</li>
+  <li>How does [Company Name] plan to use the proceeds from its IPO as outlined in the S-1?</li>
+</ul>
+<br>
+<!-- CHAT BOX -->
+<div id="chat-box"
+      data-conversation-id="<%= @conversation.id %>"
+      class="chat-box space-y-4 max-w-2xl mx-auto bg-white p-4 rounded-lg shadow-md overflow-y-auto"
+      role="log" aria-live="polite" aria-relevant="additions">
+  <% if @conversation.messages.any? %>
+    <% @conversation.messages.order(:created_at).each do |msg| %>
+      <%= render partial: "messages/message", locals: {msg: msg } %>
     <% end %>
-  </div>
-  <!-- FORM -->
-  <%= render partial: "messages/form", locals: { message: @message, company: @company, conversation: @conversation } %>
+  <% end %>
 </div>
-<!-- HIDDEN FIELD FOR CABLE IDENTIFICATION -->
-<%= tag.div nil,
-    id: "conversation-data",
-    data: { conversation_id: @conversation.id } %>
+<!-- FORM -->
+<div id="new_message_form">
+  <%= render partial: "messages/form", locals: { company: @company, conversation: @conversation } %>
+</div>
