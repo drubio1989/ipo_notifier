@@ -8,13 +8,24 @@ namespace :vector_storage do
       uuid = File.basename(file_path, ".md")
       company = Company.find_by(uuid: uuid)
 
-      unless company
+      if company.nil?
         puts "⚠️  No company found for file #{file_path}, skipping..."
         next
       end
 
       puts "🏢 Processing company: #{company.name} (#{uuid})"
-
+      
+      #Check to see if company has already been vectorized.
+      pinecone = Pinecone::Client.new
+      p_index = pinecone.index
+      stats = p_index.describe_index_stats
+      company_detected_on_pinecone = stats.dig("namespaces", company.snake_case_name)
+      
+      if company_detected_on_pinecone.present?
+        puts "⚠️ #{company.name} has already been uploaded to pinecone, skipping..."
+        next
+      end
+        
       # 1️⃣ Chunk the markdown file
       splitter = Langchain::Chunker::Markdown.new(
         File.read(file_path),
@@ -66,8 +77,6 @@ namespace :vector_storage do
 
       # 6️⃣ Upload to Pinecone safely in batches
       puts "📤 Uploading #{vectors.size} vectors to Pinecone..."
-      pinecone = Pinecone::Client.new
-      p_index = pinecone.index
 
       batch_size = 100  # adjust after diagnostics
       vectors.each_slice(batch_size).with_index(1) do |batch, idx|
