@@ -1,7 +1,7 @@
 class CompanyScraperJob < ApplicationJob
   queue_as :default
 
-  retry_on HTTParty::Error, wait: 30.seconds, attempts: 5
+  retry_on StandardError, wait: 30.seconds, attempts: 5
 
   def perform(*args)
     response = HTTParty.get('https://www.iposcoop.com/ipo-calendar/')

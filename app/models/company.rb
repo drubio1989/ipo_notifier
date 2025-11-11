@@ -1,5 +1,3 @@
-require 'httparty'
-
 class Company < ApplicationRecord
   has_many :conversations, dependent: :destroy
   
@@ -9,15 +7,26 @@ class Company < ApplicationRecord
   
   def s1_filing
     return if cik == "0" * 10
-    url = "https://data.sec.gov/submissions/CIK#{cik.rjust(10, "0")}.json"
-    response = HTTParty.get(url, headers: {
-      "User-Agent" => "Ipo Notifier (info@iponotifier.com)"
-    })
-    
-    s1_index = response["filings"]["recent"]["form"].find_index { |form_type| ["S-1", "S-1/A", "F-1", "F-1/A"].include?(form_type) }
-    s1_accession_number = response["filings"]["recent"]["accessionNumber"][s1_index]
-    s1_form_name = response["filings"]["recent"]["primaryDocument"][s1_index]
-    
-    "https://www.sec.gov/Archives/edgar/data/#{cik}/#{s1_accession_number.gsub("-", "")}/#{s1_form_name}"
+    begin
+      response = HTTParty.get("https://data.sec.gov/submissions/CIK#{cik.rjust(10, "0")}.json", headers: {
+        "User-Agent" => "Ipo Notifier (info@iponotifier.com)"
+      })
+      
+      data = response.parsed_response
+
+      filings = data.dig("filings", "recent")
+      return unless filings
+
+      s1_index = filings["form"].find_index { |f| ["S-1", "S-1/A", "F-1", "F-1/A"].include?(f) }
+      return unless s1_index
+
+      s1_accession = filings["accessionNumber"][s1_index]
+      s1_doc = filings["primaryDocument"][s1_index]
+
+      "https://www.sec.gov/Archives/edgar/data/#{cik}/#{s1_accession.delete('-')}/#{s1_doc}"
+    rescue StandardError => e
+      Rails.logger.error("SEC filing fetch failed for CIK #{cik}: #{e.class} - #{e.message}")
+      nil
+    end
   end
 end
