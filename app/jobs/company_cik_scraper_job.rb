@@ -4,7 +4,7 @@ class CompanyCikScraperJob < ApplicationJob
   retry_on HTTParty::Error, wait: 30.seconds, attempts: 5
 
   def perform(*args)
-    companies = Company.all
+    companies = Company.where(expected_to_trade: Time.current..7.days.from_now)
 
     response = HTTParty.get(
       "https://www.sec.gov/files/company_tickers.json",
@@ -22,7 +22,7 @@ class CompanyCikScraperJob < ApplicationJob
 
       cik = match ? match["cik_str"].to_s : "0000000000"
       
-      next if (company.cik.present? && company.cik != "0000000000" )|| company.s1_filing_url.present?
+      next if (company.cik.present? && company.cik != "0000000000" ) || company.s1_filing_url.present?
       company.update(
         cik: cik,
         s1_filing_url: company.s1_filing
