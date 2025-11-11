@@ -1,57 +1,40 @@
 # lib/tasks/scrape_companies.rake
-require 'httparty'
-require 'nokogiri'
-require "find"
+require 'csv'
 
 namespace :scrape do
   desc "Scrape iposcoop.com and save company data"
-  task companies: :environment do    
+  task company_data: :environment do    
     CompanyScraperJob.perform_later
   end
   
   desc "Scrape a company's cik number and s1 filing url"
-  task company_cik_and_s1: :environment do 
+  task company_cik_and_s1_url: :environment do 
     CompanyCikScraperJob.perform_later
   end
   
   desc "Scrape a company's s1 filing document"
-  task company_s1_download: :environment do
-    puts "Begin scraping for company's s1 filing document"
-    
-    companies = Company.where.not(s1_filing_url: nil)
-    companies.each do |company|   
-      res = HTTParty.get(
-          company.s1_filing_url ,
-          headers: {
-            "User-Agent" => "Ipo Notifier (info@iponotifier.com)",
-            "Accept-Encoding" => "gzip, deflate"
-          }
-        )
+  task company_s1_file: :environment do  
+    CompanyS1ScraperJob.perform_later
+  end
+  
+  desc "Scrape a company's s1 filing document"
+  task company_s1_file: :environment do  
+    CompanyS1ScraperJob.perform_later
+  end
+  
+  desc "Report which companies have missing CIKs and/or no S-1 filing"
+  task report_unretrievable_companies: :environment do
+    tmp_folder = Rails.root.join("tmp/s1_filings/unretrievable")
+    FileUtils.mkdir_p(tmp_folder)
 
-      html = case res.headers["content-encoding"]
-        when "gzip"
-          Zlib::GzipReader.new(StringIO.new(res.body)).read
-        when "deflate"
-          Zlib::Inflate.inflate(res.body)
-        else
-          res.body
-        end
+    file_path = tmp_folder.join("unretrievable_companies.csv")
 
-      html_doc = Nokogiri::HTML(html)
-      plain_text = html_doc.text.gsub(/\s+/, " ").strip
-
-      tmp_folder = Rails.root.join("tmp/s1_filings")
-      Dir.mkdir(tmp_folder) unless Dir.exist?(tmp_folder)
-
-      # Build filename
-      filename = "#{company.uuid}.md"
-      file_path = tmp_folder.join(filename)
-
-      # Write Markdown file (overwrite if it exists)
-      File.write(file_path, "##{plain_text}")
-
-      puts "Saved to #{file_path} (overwritten if existed)"
-      file_path
+    CSV.open(file_path, "w", write_headers: true, headers: ["name", "symbol"]) do |csv|
+      Company.where(cik: "0" * 10).find_each do |company|
+        csv << [company.name, company.symbol]
+      end
     end
+
+    puts "✅ Wrote #{Company.where(cik: '0' * 10).count} companies to #{file_path}"
   end
 end
