@@ -101,3 +101,5 @@ gem "tiktoken_ruby", "~> 0.0.12"
 
 
 gem "pinecone", "~> 1.2"
+
+gem "mission_control-jobs", "~> 1.1"
