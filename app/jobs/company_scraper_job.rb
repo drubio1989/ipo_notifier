@@ -1,20 +1,16 @@
 class CompanyScraperJob < ApplicationJob
   queue_as :default
 
+  retry_on HTTParty::Error, wait: 30.seconds, attempts: 5
+
   def perform(*args)
-    url = 'https://www.iposcoop.com/ipo-calendar/'
-    response = HTTParty.get(url)
-
-    unless response.success?
-      puts "Failed to fetch data"
-      next
-    end
-
+    response = HTTParty.get('https://www.iposcoop.com/ipo-calendar/')
+    
     document = Nokogiri::HTML(response.body)
     rows = document.css('tbody tr')
 
     company_columns = [
-      'Company',
+    'Company',
       'Symbol',
       'LeadManagers',
       'NoOfShares',
@@ -36,20 +32,16 @@ class CompanyScraperJob < ApplicationJob
 
         if index == 7 # ExpectedToTrade date
           date_text = td.text.strip.split(' ').first
-          begin
-            iso_date =  Date.strptime(date_text, '%m/%d/%Y')
-            company_data[field] = iso_date
-          rescue => e
-            puts "Invalid date: #{date_text}"
-          end
+          iso_date =  Date.strptime(date_text, '%m/%d/%Y')
+          company_data[field] = iso_date
         else
           company_data[field] = td.text.strip
         end
       end
-
-      next if company_data['Company'].blank?
-
-      Company.create!(
+      
+      next if Company.exists?(name: company_data['Company'])
+      
+      Company.create(
         name: company_data['Company'],
         symbol: company_data['Symbol'],
         lead_managers: company_data['LeadManagers'],
@@ -59,8 +51,6 @@ class CompanyScraperJob < ApplicationJob
         estimated_volume: company_data['EstimatedVolume'],
         expected_to_trade: company_data['ExpectedToTrade']
       )
-
-      puts "Saved: #{company_data['Company']}"
     end
   end
 end

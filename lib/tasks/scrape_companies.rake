@@ -7,20 +7,6 @@ namespace :scrape do
   desc "Scrape IPO Scoop and save company data"
   task companies: :environment do    
     CompanyScraperJob.perform_later
-    # puts "Removing old data......"
-    
-  #  filings_path = Rails.root.join("tmp", "s1_filings")
-
-  #   if Dir.exist?(filings_path)
-  #     Find.find(filings_path) do |path|
-  #       File.delete(path) if File.file?(path)
-  #     end
-  #   else
-  #     FileUtils.mkdir_p(filings_path)
-  #   end
-    
-    # Company.destroy_all
-   
   end
   
   desc "Scrape a company's cik number and s1 filing url"
