@@ -16,12 +16,7 @@ namespace :scrape do
   task company_s1_file: :environment do  
     CompanyS1ScraperJob.perform_later
   end
-  
-  desc "Scrape a company's s1 filing document"
-  task company_s1_file: :environment do  
-    CompanyS1ScraperJob.perform_later
-  end
-  
+    
   desc "Report which companies have missing CIKs and/or no S-1 filing"
   task report_unretrievable_companies: :environment do
     tmp_folder = Rails.root.join("tmp/s1_filings/unretrievable")

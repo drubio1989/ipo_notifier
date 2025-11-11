@@ -8,3 +8,23 @@
 #     command: "SoftDeletedRecord.due.delete_all"
 #     priority: 2
 #     schedule: at 5am every day
+production:
+  scrape_companies:
+    command: "Rake.scrape('scrape:company_data')"
+    schedule: "every day at 6am"
+    
+  scrape_company_cik_and_s1:
+    command: "Rake.scrape('scrape:company_cik_and_s1_url')"
+    schedule: "every day at 6:15am"
+    
+  scrape_company_s1_download:
+    command: "Rake.scrape('scrape:company_s1_file')"
+    schedule: "every day at 6:30am"
+    
+  vectorize_s1_filings:
+    command: "Rake.scrape('vector_storage:vectorize_s1_filings')"
+    schedule: "every day at 6:40am"
+    
+  notify_subscribers:
+    command: "Rake.scrape('subscribers:notify')"
+    schedule: "every day at 8am"

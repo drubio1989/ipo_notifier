@@ -3,7 +3,10 @@ require 'langchain'
 namespace :vector_storage do
   task vectorize_s1_filings: :environment do
     puts "🚀 Starting vectorization process..."
-
+    voyageai = VoyageAI::Client.new
+    pinecone = Pinecone::Client.new
+    p_index = pinecone.index
+    
     Dir.glob(Rails.root.join("tmp", "s1_filings", "*.md")).each do |file_path|
       uuid = File.basename(file_path, ".md")
       company = Company.find_by(uuid: uuid)
@@ -16,8 +19,7 @@ namespace :vector_storage do
       puts "🏢 Processing company: #{company.name} (#{uuid})"
       
       #Check to see if company has already been vectorized.
-      pinecone = Pinecone::Client.new
-      p_index = pinecone.index
+    
       stats = p_index.describe_index_stats
       company_detected_on_pinecone = stats.dig("namespaces", company.snake_case_name)
       
@@ -37,7 +39,7 @@ namespace :vector_storage do
       puts "🧩 Created #{chunks.size} chunks. Generating embeddings..."
 
       # 2️⃣ Generate embeddings in batches
-      voyageai = VoyageAI::Client.new
+     
       all_embeddings = []
 
       chunks.each_slice(250).with_index(1) do |batch, idx|

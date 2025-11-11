@@ -1,7 +1,7 @@
 class CompanyCikScraperJob < ApplicationJob
   queue_as :default
 
-  retry_on StandardError, wait: 30.seconds, attempts: 5
+  retry_on HTTParty::Error, wait: 30.seconds, attempts: 5
 
   def perform(*args)
     companies = Company.all
@@ -21,7 +21,8 @@ class CompanyCikScraperJob < ApplicationJob
         sec_by_name[company.name&.downcase]
 
       cik = match ? match["cik_str"].to_s : "0000000000"
-
+      
+      next if (company.cik.present? && company.cik != "0000000000" )|| company.s1_filing_url.present?
       company.update(
         cik: cik,
         s1_filing_url: company.s1_filing
