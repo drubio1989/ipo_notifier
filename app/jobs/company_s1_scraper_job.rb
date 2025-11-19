@@ -7,7 +7,7 @@ class CompanyS1ScraperJob < ApplicationJob
     tmp_folder = Rails.root.join("tmp/s1_filings")
     FileUtils.mkdir_p(tmp_folder)
 
-    Company.where.not(s1_filing_url: nil).and(Company.where(expected_to_trade: Time.current..7.days.from_now)).find_each do |company|
+    Company.where.not(s1_filing_url: nil) do |company|
       filename = "#{company.uuid}.md"
       file_path = tmp_folder.join(filename)
       

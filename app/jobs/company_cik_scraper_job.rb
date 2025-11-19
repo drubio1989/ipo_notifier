@@ -4,8 +4,7 @@ class CompanyCikScraperJob < ApplicationJob
   retry_on HTTParty::Error, wait: 30.seconds, attempts: 5
 
   def perform(*args)
-    companies = Company.where(expected_to_trade: Time.current..7.days.from_now)
-
+    
     response = HTTParty.get(
       "https://www.sec.gov/files/company_tickers.json",
       headers: { "User-Agent" => "Ipo Notifier (info@iponotifier.com)" }
@@ -15,7 +14,7 @@ class CompanyCikScraperJob < ApplicationJob
     sec_by_symbol = sec_data.index_by { |c| c["ticker"]&.upcase }
     sec_by_name   = sec_data.index_by { |c| c["title"]&.downcase }
 
-    companies.each do |company|
+    Company.all.each do |company|
       match =
         sec_by_symbol[company.symbol&.upcase] ||
         sec_by_name[company.name&.downcase]
