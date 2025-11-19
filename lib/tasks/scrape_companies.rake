@@ -4,17 +4,17 @@ require 'csv'
 namespace :scrape do
   desc "Scrape iposcoop.com and save company data"
   task company_data: :environment do    
-    CompanyScraperJob.perform_later
+    CompanyScraperJob.perform_now
   end
   
   desc "Scrape a company's cik number and s1 filing url"
   task company_cik_and_s1_url: :environment do 
-    CompanyCikScraperJob.perform_later
+    CompanyCikScraperJob.perform_now
   end
   
   desc "Scrape a company's s1 filing document"
   task company_s1_file: :environment do  
-    CompanyS1ScraperJob.perform_later
+    CompanyS1ScraperJob.perform_now
   end
     
   desc "Report which companies have missing CIKs and/or no S-1 filing"
