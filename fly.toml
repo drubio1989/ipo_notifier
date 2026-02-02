@@ -41,11 +41,10 @@ console_command = '/rails/bin/rails console'
   cpu_kind = 'shared'
   cpus = 1
 
-
 [processes]
-  app = './bin/rails server -b 0.0.0.0 -p $PORT'
-  worker = './bin/rails solid_queue:start'
-  
+  app = './bin/rails server -b 0.0.0.0'
+  worker = "./bin/rails solid_queue:start"
+
 [[machines]]
   name = "worker"
   processes = ["worker"]
